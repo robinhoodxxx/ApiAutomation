@@ -1,0 +1,95 @@
+{
+  "company": {
+    "name": "(name)",
+    "location": {
+      "address": {
+        "street": "(street)",
+        "city": "(city)",
+        "state": "(state)",
+        "zip": (zip)
+      },
+      "country": "(country)"
+    },
+    "departments": [
+      {
+        "id": (id),
+        "name": "(name)",
+        "employees": [
+          {
+            "id": (id),
+            "name": "(name)",
+            "position": "(position)",
+            "skills": ["(skills)"],
+            "projects": [
+              {
+                "id": (id),
+                "title": "(title)",
+                "status": "(status)",
+                "startDate": "(startDate)",
+                "endDate": "(endDate)"
+              },
+              {
+                "id": (id),
+                "title": "(title)",
+                "status": "(status)",
+                "startDate": "(startDate)",
+                "endDate": "(endDate)"
+
+              }
+            ]
+          },
+          {
+            "id": (id),
+            "name": "(name)",
+            "position": "(position)",
+            "skills": ["(skills)"],
+            "projects": []
+          }
+        ]
+      },
+      {
+        "id": (id),
+        "name": "(name)",
+        "employees": [
+          {
+            "id": (id),
+            "name": "(name)",
+            "position": "(position)",
+            "skills": ["(skills)"],
+            "projects": [
+              {
+                "id": (id),
+                "title": "(title)",
+                "status": "(status)",
+                "startDate": "(startDate)",
+                "endDate": "(endDate)"
+              }
+            ]
+          },
+          {
+            "id": (id),
+            "name": "(name)",
+            "position": "(position)",
+            "skills": ["(skills)"],
+            "projects": [],
+            "job": (job)
+          }
+        ]
+      }
+    ],
+    "established": "(established)",
+    "employeesCount": "(employeesCount)",
+    "revenue": "(revenue)",
+    "profit": "(profit)",
+    "regex": "(regex)",
+    "null": (null),
+    "job": "(job)",
+    "No attr": "(No attr)",
+    "bracket" : "(open bracket",
+    "position": "(position)",
+    "CloseBracket": "open bracket)",
+    "value" : (id),
+    "empty": "(empty)",
+    "blank": "(blank)"
+  }
+}

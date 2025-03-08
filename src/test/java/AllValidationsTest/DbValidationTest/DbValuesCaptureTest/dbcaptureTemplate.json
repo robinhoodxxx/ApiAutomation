@@ -1,0 +1,13 @@
+{
+  "product_id" : "(id ) ",
+  "name" : " (name)",
+  "obj.description" : "(desc)",
+  "price" : "(value at ) ",
+  "obj.created_at" : "( date)",
+  "obj.result": "(result)",
+  "arr[0].val": "(value)",
+  "arr[0].int": "(integer)",
+  "arr[0].bool": "(boolean)"
+
+
+}

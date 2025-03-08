@@ -1,0 +1,97 @@
+{
+  "company": {
+    "name": "Tech Innovators Inc.",
+    "location": {
+      "address": {
+        "street": "1234 Innovation Drive ",
+        "city": "Tech City",
+        "state": "CA",
+        "zip": 90210
+      },
+      "country": "USA"
+    },
+    "departments": [
+      {
+        "id": 101,
+        "name": "Tech Innovators Inc.",
+        "employees": [
+          {
+            "id": 101,
+            "name": "Tech Innovators Inc.",
+            "position": "Social Media Specialist",
+            "skills": ["Social Media"],
+            "projects": [
+              {
+                "id": 101,
+                "title": "Market Research",
+                "status": "Completed",
+                "startDate": "2023-02-01",
+                "endDate": "2023-04-15"
+              },
+              {
+                "id": 101,
+                "title": "Market Research",
+                "status": "Completed",
+                "startDate": "2023-02-01",
+                "endDate": "2023-04-15"
+              }
+            ]
+          },
+          {
+            "id": 101,
+            "name": "Tech Innovators Inc.",
+            "position": "Social Media Specialist",
+            "skills": ["Social Media"],
+            "projects": []
+          }
+        ]
+      },
+      {
+        "id": 101,
+        "name": "Tech Innovators Inc.",
+        "employees": [
+          {
+            "id": 101,
+            "name": "Tech Innovators Inc.",
+            "position": "Social Media Specialist",
+            "skills": ["Social Media"],
+            "projects": [
+              {
+                "id": 101,
+                "title": "Market Research",
+                "status": "Completed",
+                "startDate": "2023-02-01",
+                "endDate": "2023-04-15"
+              }
+            ]
+          },
+          {
+            "id": 101,
+            "name": "Tech Innovators Inc.",
+            "position": "Social Media Specialist",
+            "skills": ["Social Media"],
+            "projects": [],
+            "job" : null
+
+          }
+        ]
+      }
+    ],
+    "established": "2010-05-10",
+    "employeesCount": "50",
+    "revenue": "89,88,893",
+    "profit": "10%",
+    "regex": "^n${9-10}hj",
+    "null" :null,
+    "job" : "null",
+    "No attr": "(No attr)",
+    "bracket" : "(open bracket",
+    "position": "(position)",
+    "CloseBracket": "open bracket)",
+    "value" : 101,
+    "empty": "",
+    "blank": " "
+
+
+  }
+}

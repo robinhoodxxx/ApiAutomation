@@ -1,0 +1,15 @@
+[27-02 : 19:59:54] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: token -> column: token -> value: null
+[27-02 : 19:59:54] [Listners.CustomLogger]  [INFO] 	:ResponseExtract is PASSED
+[27-02 : 19:59:54] [Listners.CustomLogger]  [INFO] 	:ResponseCodeValidation is FAILED
+[27-02 : 19:59:54] [Listners.CustomLogger]  [INFO] 	:SchemaValidation is NOT_ENABLED
+[27-02 : 19:59:54] [Listners.CustomLogger]  [INFO] 	:SchemaValidation is PASSED
+[27-02 : 19:59:54] [Listners.CustomLogger]  [INFO] 	:DbValidation is NOT_ENABLED
+[27-02 : 19:59:54] [Listners.CustomLogger]  [INFO] 	:OverallStatus is FAILED
+[27-02 : 19:59:56] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: id -> column: id -> value: 544
+[27-02 : 19:59:56] [Listners.CustomLogger]  [INFO] 	:ResponseExtract is PASSED
+[27-02 : 19:59:56] [Listners.CustomLogger]  [INFO] 	:ResponseCodeValidation is PASSED
+[27-02 : 19:59:56] [Listners.CustomLogger]  [INFO] 	:SchemaValidation is NOT_ENABLED
+[27-02 : 19:59:56] [Listners.CustomLogger]  [INFO] 	:SchemaValidation is PASSED
+[27-02 : 19:59:56] [Listners.CustomLogger]  [INFO] 	:DbValidation is NOT_ENABLED
+[27-02 : 19:59:56] [Listners.CustomLogger]  [INFO] 	:OverallStatus is FAILED
+[27-02 : 19:59:56] [Listners.CustomLogger]  [ERROR] 	:Excel ReadSingleRow failed for row:3 for filesrc/main/resources/InputTestData/DataSheet/TestData.xlsx

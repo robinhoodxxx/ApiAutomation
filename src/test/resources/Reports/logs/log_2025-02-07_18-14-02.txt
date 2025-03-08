@@ -1,0 +1,1 @@
+[07-02 : 18:14:02] [Listners.CustomLogger]  [ERROR] 	:File not found: /AllValidationsTest/FieldComparisonsTest/TC_02InvalidSymbol.json

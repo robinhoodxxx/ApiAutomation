@@ -1,0 +1,20 @@
+[11-02 : 21:47:24] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: product_id -> column: id -> value: 10
+[11-02 : 21:47:24] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: name -> column: name -> value: Smartphone
+[11-02 : 21:47:24] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: obj.description -> column: desc -> value: Latest 5G smartphone with great features
+[11-02 : 21:47:24] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: price -> column: value at -> value: 6.9942426E9
+[11-02 : 21:47:24] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: obj.created_at -> column: date -> value: 1734273497000
+[11-02 : 21:47:24] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: obj.result -> column: result -> value: true
+[11-02 : 21:47:24] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: arr[0].val -> column: value -> value: hello
+[11-02 : 21:47:24] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: arr[0].int -> column: integer -> value: 9.879988E10
+[11-02 : 21:47:24] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: arr[0].bool -> column: boolean -> value: true
+[11-02 : 21:47:24] [Listners.CustomLogger]  [INFO] 	:incorrect symbol
+[11-02 : 21:47:25] [Listners.CustomLogger]  [WARNING] 	:Rest service got exception
+[11-02 : 21:47:25] [Listners.CustomLogger]  [INFO] 	:Retrying count: 1
+[11-02 : 21:47:25] [Listners.CustomLogger]  [WARNING] 	:Rest service got exception
+[11-02 : 21:47:25] [Listners.CustomLogger]  [INFO] 	:Retrying count: 2
+[11-02 : 21:47:25] [Listners.CustomLogger]  [WARNING] 	:Rest service got exception
+[11-02 : 21:47:25] [Listners.CustomLogger]  [INFO] 	:Retrying count: 3
+[11-02 : 21:47:27] [Listners.CustomLogger]  [INFO] 	:Retrying count: 1
+[11-02 : 21:47:27] [Listners.CustomLogger]  [INFO] 	:Retrying count: 1
+[11-02 : 21:47:28] [Listners.CustomLogger]  [INFO] 	:Retrying count: 1
+[11-02 : 21:47:28] [Listners.CustomLogger]  [ERROR] 	:Invalid RowNumber: 1 for file ./src/test/java/resources/UtilsTestFiles/Test.xlsx

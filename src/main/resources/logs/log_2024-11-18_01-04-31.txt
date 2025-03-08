@@ -1,0 +1,2 @@
+[18-11 : 01:04:31] [Listners.CustomLogger]  [INFO] 	:Application started.
+[18-11 : 01:04:31] [Listners.CustomLogger]  [ERROR] 	:Error occurred: A simulated exception.

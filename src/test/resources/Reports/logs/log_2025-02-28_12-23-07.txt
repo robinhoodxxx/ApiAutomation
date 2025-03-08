@@ -1,0 +1,31 @@
+[28-02 : 12:23:11] [Listners.CustomLogger]  [INFO] 	:RequestHeaders: {Content-type=application/json}
+[28-02 : 12:23:11] [Listners.CustomLogger]  [INFO] 	:RequestPayload: {
+    "email": "eve.holt@reqres.in",
+    "password": "cityslicka"
+}
+[28-02 : 12:23:14] [Listners.CustomLogger]  [INFO] 	:RestResponse[status=PASSED, statusCode=200, responseBody={"token":"QpwL5tke4Pnpja7X4"}, responseHeaders=[Date=Fri, 28 Feb 2025 06:53:14 GMT, Content-Type=application/json; charset=utf-8, Content-Length=29, Connection=keep-alive, Cf-Ray=918e7f112acb17a8-MAA, Server=cloudflare, Report-To={"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1740725594&sid=c4c9725f-1ab0-44d8-820f-430df2718e11&s=yH0ZpygPMDs5qjmAhmhr%2FXMvHFQ2ulwLS7y%2FH8Vxu2g%3D"}]}, Reporting-Endpoints=heroku-nel=https://nel.heroku.com/reports?ts=1740725594&sid=c4c9725f-1ab0-44d8-820f-430df2718e11&s=yH0ZpygPMDs5qjmAhmhr%2FXMvHFQ2ulwLS7y%2FH8Vxu2g%3D, Nel={"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}, X-Powered-By=Express, Access-Control-Allow-Origin=*, Etag=W/"1d-lGCrvD6B7Qzk11+2C98+nGhhuec", Via=1.1 vegur, Cf-Cache-Status=DYNAMIC, server-timing=cfL4;desc="?proto=TCP&rtt=6445&min_rtt=3779&rtt_var=6381&sent=7&recv=7&lost=0&retrans=0&sent_bytes=3107&recv_bytes=864&delivery_rate=725646&cwnd=252&unsent_bytes=0&cid=2ffc40747dfa0c05&ts=492&x=0"], responseTime=1697.0]
+[28-02 : 12:23:15] [Listners.CustomLogger]  [INFO] 	:ResponseExtract successful for key: token -> column: token -> value: QpwL5tke4Pnpja7X4
+[28-02 : 12:23:15] [Listners.CustomLogger]  [INFO] 	:ResponseExtract is PASSED
+[28-02 : 12:23:15] [Listners.CustomLogger]  [INFO] 	:{"token":"QpwL5tke4Pnpja7X4"}
+[28-02 : 12:23:15] [Listners.CustomLogger]  [INFO] 	:ResponseValidation is PASSED
+[28-02 : 12:23:15] [Listners.CustomLogger]  [INFO] 	:ResponseCodeValidation is PASSED
+[28-02 : 12:23:15] [Listners.CustomLogger]  [INFO] 	:SchemaValidation is NOT_ENABLED
+[28-02 : 12:23:15] [Listners.CustomLogger]  [INFO] 	:SchemaValidation is PASSED
+[28-02 : 12:23:15] [Listners.CustomLogger]  [INFO] 	:DbValidation is NOT_ENABLED
+[28-02 : 12:23:15] [Listners.CustomLogger]  [INFO] 	:OverallStatus is PASSED
+[28-02 : 12:23:16] [Listners.CustomLogger]  [INFO] 	:RequestHeaders: {Authorization=Bearer QpwL5tke4Pnpja7X4, Content-type=application/json}
+[28-02 : 12:23:16] [Listners.CustomLogger]  [INFO] 	:RequestPayload: {
+    "name": "hello",
+    "job": "master"
+}
+[28-02 : 12:23:16] [Listners.CustomLogger]  [INFO] 	:RestResponse[status=PASSED, statusCode=201, responseBody={"name":"hello","job":"master","id":"889","createdAt":"2025-02-28T06:53:16.681Z"}, responseHeaders=[Date=Fri, 28 Feb 2025 06:53:16 GMT, Content-Type=application/json; charset=utf-8, Content-Length=81, Connection=keep-alive, Cf-Ray=918e7f21c8357fbd-MAA, Server=cloudflare, Report-To={"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1740725596&sid=c4c9725f-1ab0-44d8-820f-430df2718e11&s=ZOG1Dxd%2BtZwwK%2BzsxPNCAMONqislgpSwABCnCnYvypw%3D"}]}, Reporting-Endpoints=heroku-nel=https://nel.heroku.com/reports?ts=1740725596&sid=c4c9725f-1ab0-44d8-820f-430df2718e11&s=ZOG1Dxd%2BtZwwK%2BzsxPNCAMONqislgpSwABCnCnYvypw%3D, Nel={"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}, X-Powered-By=Express, Access-Control-Allow-Origin=*, Etag=W/"51-jdbaSbTFH6l587/u8nr5CV3g6yM", Via=1.1 vegur, Cf-Cache-Status=DYNAMIC, server-timing=cfL4;desc="?proto=TCP&rtt=4954&min_rtt=4158&rtt_var=2551&sent=5&recv=6&lost=0&retrans=0&sent_bytes=3107&recv_bytes=882&delivery_rate=578446&cwnd=247&unsent_bytes=0&cid=86dca6dac4f57779&ts=336&x=0"], responseTime=354.0]
+[28-02 : 12:23:16] [Listners.CustomLogger]  [INFO] 	:ResponseExtract successful for key: id -> column: id -> value: 889
+[28-02 : 12:23:16] [Listners.CustomLogger]  [INFO] 	:ResponseExtract is PASSED
+[28-02 : 12:23:16] [Listners.CustomLogger]  [INFO] 	:{"name":"hello","job":"master","id":"889","createdAt":"2025-02-28T06:53:16.681Z"}
+[28-02 : 12:23:16] [Listners.CustomLogger]  [INFO] 	:ResponseValidation is PASSED
+[28-02 : 12:23:16] [Listners.CustomLogger]  [INFO] 	:ResponseCodeValidation is PASSED
+[28-02 : 12:23:16] [Listners.CustomLogger]  [INFO] 	:SchemaValidation is NOT_ENABLED
+[28-02 : 12:23:16] [Listners.CustomLogger]  [INFO] 	:SchemaValidation is PASSED
+[28-02 : 12:23:16] [Listners.CustomLogger]  [INFO] 	:DbValidation is NOT_ENABLED
+[28-02 : 12:23:16] [Listners.CustomLogger]  [INFO] 	:OverallStatus is PASSED
+[28-02 : 12:23:16] [Listners.CustomLogger]  [ERROR] 	:Excel ReadSingleRow failed for row:3 for filesrc/main/resources/InputTestData/DataSheet/TestData.xlsx

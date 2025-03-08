@@ -1,0 +1,16 @@
+[27-01 : 19:05:41] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: product_id -> column: id -> value: 1
+[27-01 : 19:05:41] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: name -> column: name -> value: "Smartphone"
+[27-01 : 19:05:41] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: description -> column: desc -> value: "Latest 5G smartphone with great features"
+[27-01 : 19:05:41] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: price -> column: value at -> value: 699.99
+[27-01 : 19:05:41] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: created_at -> column: date -> value: 1734273497000
+[27-01 : 19:05:41] [Listners.CustomLogger]  [INFO] 	:DB capture successful for key: result -> column: result -> value: true
+[27-01 : 19:05:41] [Listners.CustomLogger]  [WARNING] 	:Rest service got exception
+[27-01 : 19:05:41] [Listners.CustomLogger]  [INFO] 	:Retrying count: 1
+[27-01 : 19:05:41] [Listners.CustomLogger]  [WARNING] 	:Rest service got exception
+[27-01 : 19:05:42] [Listners.CustomLogger]  [INFO] 	:Retrying count: 2
+[27-01 : 19:05:42] [Listners.CustomLogger]  [WARNING] 	:Rest service got exception
+[27-01 : 19:05:42] [Listners.CustomLogger]  [INFO] 	:Retrying count: 3
+[27-01 : 19:05:44] [Listners.CustomLogger]  [INFO] 	:Retrying count: 1
+[27-01 : 19:05:44] [Listners.CustomLogger]  [INFO] 	:Retrying count: 1
+[27-01 : 19:05:45] [Listners.CustomLogger]  [INFO] 	:Retrying count: 1
+[27-01 : 19:05:45] [Listners.CustomLogger]  [ERROR] 	:Invalid RowNumber: 1 for file ./src/test/java/resources/UtilsTestFiles/Test.xlsx

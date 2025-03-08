@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "company": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "object",
+              "properties": {
+                "street": {
+                  "type": "string"
+                },
+                "city": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string"
+                },
+                "zip": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "street",
+                "city",
+                "state",
+                "zip"
+              ]
+            },
+            "country": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "address",
+            "country"
+          ],
+          "additionalProperties": false
+
+
+        }
+      },
+      "required": [
+        "name",
+        "location"
+      ]
+    }
+  },
+  "required": [
+    "company"
+  ]}

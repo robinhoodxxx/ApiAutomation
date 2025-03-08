@@ -1,0 +1,20 @@
+{
+  "product_id": 10,
+  "name": "Smartphone",
+  "price": 6994242525.2332,
+  "stock_quantity": 50,
+  "category_id": 1,
+  "created_at": 1734273497000,
+  "obj": {
+    "description": "Latest 5G smartphone with great features",
+    "created_at": 1734273497000,
+    "result": true
+  },
+  "arr": [
+    {
+      "val": "hello",
+      "bool": true,
+      "int": 98799877888.992
+    }
+  ]
+}

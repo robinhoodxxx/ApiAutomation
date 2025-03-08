@@ -1,0 +1,92 @@
+[
+  {
+    "expected": 344556666424.98077,
+    "actual": 344556666424.98077,
+    "validator": "="
+  },
+  {
+    "expected": 6797979778.89933,
+    "actual": 6797979778.89932,
+    "validator": ">"
+  },
+  {
+    "expected": 679797977889.932,
+    "actual": 679797977889.933,
+    "validator": "<"
+  },
+  {
+    "expected": 87690965.55,
+    "actual": 87690965.55,
+    "validator": "<="
+  },
+  {
+    "expected": 87690965.54,
+    "actual": 87690965.55,
+    "validator": "<="
+  },
+  {
+    "expected": 224421114.45,
+    "actual": 224421114.44,
+    "validator": ">="
+  },
+  {
+    "expected": 224421114.45,
+    "actual": 224421114.450,
+    "validator": ">="
+  },
+  {
+    "expected": 246787.3759375,
+    "actual": 251411515.15e757,
+    "validator": "!="
+  },
+  {
+    "expected": "hello",
+    "actual": "hello",
+    "validator": "="
+  },
+  {
+    "expected": "hello",
+    "actual": "HELLO",
+    "validator": "=="
+  },
+  {
+    "expected": "this",
+    "actual": "hello",
+    "validator": "!="
+  },
+  {
+    "expected": " hello",
+    "actual": " hello",
+    "validator": "="
+  },
+  {
+    "expected": "hello world",
+    "actual": "llo",
+    "validator": "~"
+  },
+  {
+    "expected": "hello world",
+    "actual": "hello",
+    "validator": "^"
+  },
+  {
+    "expected": "hello world",
+    "actual": "world",
+    "validator": "%"
+  },
+  {
+    "expected": true,
+    "actual": true,
+    "validator": "="
+  },
+  {
+    "expected": false,
+    "actual": false,
+    "validator": "="
+  },
+  {
+    "expected": true,
+    "actual": false,
+    "validator": "!="
+  }
+]
