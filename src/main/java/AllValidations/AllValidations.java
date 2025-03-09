@@ -2,11 +2,13 @@ package AllValidations;
 
 
 import AllValidations.DbValidations.DbValidation;
+import AllValidations.DbValidations.DbValuesExtract;
 import AllValidations.Responsevalidation.JsonResValidation;
 import AllValidations.Responsevalidation.ResponseCodeValidation;
 import AllValidations.Responsevalidation.SchemaValidation;
 import AllValidations.valuesExtract.ValuesExtract;
 import Listners.CustomLogger;
+import Services.RestApi;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -39,11 +41,15 @@ public class AllValidations {
     }
 
 
-    public static void allValidationsExtractions(Map<String, Object> testData) {
+
+
+    public static void executionOpsOrder(Map<String, Object> testData) {
 
         Map<String, ValidationResponses> validations = new LinkedHashMap<>();
         Map<String, String> extractions = new LinkedHashMap<>();
 
+        DbValuesExtract.overallDbExtract(testData,extractions);
+        RestApi.serviceExecution(testData);
         ValuesExtract.responseCapture(testData, extractions);
         JsonResValidation.responseValidation(testData, validations);
         ResponseCodeValidation.responseCodeValidation(testData, validations);

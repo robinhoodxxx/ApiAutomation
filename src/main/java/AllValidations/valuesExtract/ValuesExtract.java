@@ -47,6 +47,9 @@ public class ValuesExtract extends DbValuesExtract {
         log.info(validationStatusLog(RESPONSE_EXTRACT, status));
     }
 
+
+
+
     public static boolean requestCapture(JsonNode expJson, JsonNode actualJson, Map<String, Object> testData) {
 
 

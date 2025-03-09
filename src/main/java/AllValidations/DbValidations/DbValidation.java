@@ -75,11 +75,17 @@ public class DbValidation {
 
             Map<String, JsonNode> actualDbValues = MysqlDbOps.actualDbResponses(app, env, queries);
 
+            if (actualDbValues.isEmpty()){
+                log.warning("Db responses are came up as empty");
+                return  new ValidationResponses(FAIL, actualDbResults);
+            }
+
             queries.forEach(db -> {
 
                 StringBuilder comments = new StringBuilder();
                 String queryName = db.queryName();
                 JsonNode expDbJson = db.DbJson();
+
                 JsonNode actualDbJson = actualDbValues.get(queryName);
 
                 boolean status = isJsonsEqual(expDbJson, actualDbJson, comments, ignoreColumns, DB_VALIDATION);
@@ -89,6 +95,7 @@ public class DbValidation {
                 result[0] = result[0] && status;
 
                 actualDbResults.add(actualDbRecord);
+                log.info(comments.toString());
             });
 
 
@@ -119,8 +126,16 @@ public class DbValidation {
                     return;
                 }
 
-                String actualQuery = TemplateOps.processTemplate(rec.getField(QUERY).trim(), testData);
-                JsonNode json = JsonOperations.convertStringToJson(TemplateOps.processTemplate(rec.getField(QUERY).trim(), testData));
+                String actualQuery = TemplateOps.processTemplate(rec.getField(QUERY), testData);
+
+                String expJson = rec.getField(validation);
+
+                //Db validation we use template change for extraction we don't use template process
+                if(validation.equals(DB_VALID)){
+                    expJson = TemplateOps.processTemplate(expJson, testData);
+                }
+                 JsonNode json = JsonOperations.convertStringToJson(expJson);
+
                 queryDetails.add(new DbQueryRequest(rec.getField(QUERY_NAME), actualQuery, json));
 
 
@@ -141,7 +156,7 @@ public class DbValidation {
 
     private static List<DbQueryRequest> getDbQueriesForValidation(String app, List<String> queries, Map<String, Object> testData) {
 
-        return getDbQueries(app, queries, "DbValidation", testData);
+        return getDbQueries(app, queries, DB_VALID, testData);
     }
 
 }
