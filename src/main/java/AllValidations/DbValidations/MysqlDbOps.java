@@ -1,6 +1,7 @@
 package AllValidations.DbValidations;
 
 
+import Listners.ConfigReader;
 import Listners.CustomLogger;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -8,18 +9,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.*;
+
+import static Listners.CommonVariables.CONFIG;
+import static Listners.DataSheet.*;
 
 
 public class MysqlDbOps {
 
 
+
+
     private static final CustomLogger log = CustomLogger.getInstance();
-    static String dbUrl = "jdbc:mysql://localhost:3306/mart";
-    static String dbUser = "root";
-    static String dbPassword = "Tanesh@016";
-    static String sql = "SELECT * FROM products where name ='Smartphones'";
     private static final Map<String, DbConnection> DB_DETAILS = new HashMap<>();
 
 
@@ -29,6 +32,10 @@ public class MysqlDbOps {
         if (queries == null || queries.isEmpty()) return actualDbValues;
 
         DbConnection dbDetails = getDbConnectionDetails(app, env);
+
+        if (dbDetails==null){
+            return actualDbValues;
+        }
 
 
         try (
@@ -55,6 +62,7 @@ public class MysqlDbOps {
 
         return new LinkedHashMap<>();
     }
+
 
     private static JsonNode executeQuery(Statement st, DbQueryRequest dbRecord) {
         String query = dbRecord.query();
@@ -85,7 +93,18 @@ public class MysqlDbOps {
             return DB_DETAILS.get(app + env);
         }
 
-        DbConnection dbDetails = new DbConnection(dbUrl, dbUser, dbPassword);
+        String dbName = ConfigReader.get(String.format("%s_%s_DBNAME",app,env),CONFIG);
+        String dbUrl = ConfigReader.get(String.format("%s_%s_DB_URL",app,env),CONFIG)+dbName;
+        String dbUser =ConfigReader.get(String.format("%s_%s_DB_USERNAME",app,env),CONFIG);
+        String dbPassword =ConfigReader.get(String.format("%s_%s_DB_PASSWORD",app,env),CONFIG);
+
+        if(dbUrl.isBlank()||dbUser.isBlank()||dbPassword.isBlank()){
+            String path = "src/main/resources/Config/config.properties";
+            log.warning(String.format("DB_USERNAME or DB_PASSWORD or DB_URL are empty for the %s : %s and %s : %s in ConfigFilePath: %s",APP,app,ENV,env,path));
+            return null;
+        }
+
+        DbConnection dbDetails = new DbConnection(dbUrl.trim(), dbUser.trim(), dbPassword.trim());
 
 
         DB_DETAILS.put(app + env, dbDetails);
@@ -97,7 +116,7 @@ public class MysqlDbOps {
 
 
 
-    private static ObjectNode convertResultSetRowToJson(ResultSet resultSet) {
+    private static JsonNode convertResultSetRowToJson(ResultSet resultSet) {
 
 
         ObjectMapper mapper = new ObjectMapper();
@@ -115,8 +134,17 @@ public class MysqlDbOps {
                 String columnName = metaData.getColumnName(i);
                 Object columnValue = resultSet.getObject(i);
 
-                // Add key-value pair to JSON object
-                jsonNode.putPOJO(columnName, columnValue);
+                switch (columnValue) {
+                    case Integer intValue -> jsonNode.put(columnName, intValue);
+                    case Double doubleValue -> jsonNode.put(columnName, doubleValue);
+                    case Float floatValue -> jsonNode.put(columnName, floatValue);
+                    case Long longValue -> jsonNode.put(columnName, longValue);
+                    case Boolean boolValue -> jsonNode.put(columnName, boolValue);
+                    case String strValue -> jsonNode.put(columnName, strValue);
+                    case BigDecimal bigDecimalValue -> jsonNode.put(columnName, bigDecimalValue.doubleValue()); // Convert BigDecimal to double
+                    case null -> jsonNode.putNull(columnName); // Handle NULL values
+                    default -> jsonNode.putPOJO(columnName, columnValue); // Fallback for other objects
+                }
             }
 
             log.info(jsonNode.toPrettyString());

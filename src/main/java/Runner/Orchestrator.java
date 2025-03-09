@@ -1,10 +1,10 @@
 package Runner;
 
 import AllValidations.AllValidations;
+import Listners.CustomLogger;
 import Listners.Reports.ExcelReport;
 import Listners.Reports.ExtentReport;
 import Listners.Reports.JsonReport;
-import Services.RestApi;
 import serviceUtils.ExcelOperations;
 
 import java.util.ArrayList;
@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Orchestrator {
+    private static final CustomLogger log = CustomLogger.getInstance();
+
 
 
     public static void main(String[] args) {
@@ -42,9 +44,9 @@ public class Orchestrator {
 
         Map<String, Object> rowData = ExcelOperations.readExcelSingleRow(testData, row);
 
-        RestApi.serviceExecution(rowData);
-        AllValidations.allValidationsExtractions(rowData);
+        AllValidations.executionOpsOrder(rowData);
         ExcelOperations.updateExcelRow(testData, rowData, row);
+        log.info("*******************************");
 
         return rowData;
     }

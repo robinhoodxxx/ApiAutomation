@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import static AllValidations.AllValidations.status;
+import static AllValidations.AllValidations.validationStatusLog;
 import static AllValidations.DbValidations.DbValidation.getDbQueriesForExtract;
 import static Listners.CommonVariables.NOT_ENABLE;
 import static Listners.CommonVariables.SPLIT_REGEX;
@@ -20,22 +21,28 @@ public class DbValuesExtract {
     private static final CustomLogger log = CustomLogger.getInstance();
 
 
-    public static String overallDbExtract(Map<String, Object> testData) {
-      String queries = (String) testData.get(DB_EXTRACT);
-      String app = (String) testData.get(APP);
-      String env = (String) testData.get(ENV);
+
+    public static void overallDbExtract(Map<String, Object> testData,Map<String, String> allExtracts) {
+        String queries = (String) testData.get(DB_EXTRACT);
+        String app = (String) testData.get(APP);
+        String env = (String) testData.get(ENV);
 
         if(queries==null||queries.isBlank()){
-          log.warning(String.format("%s is column value must not Empty or nll in data sheet ",APP));
-          return NOT_ENABLE;
-      }
+            log.warning(validationStatusLog(DB_EXTRACT,NOT_ENABLE));
+            allExtracts.put(DB_EXTRACT,NOT_ENABLE);
+            return;
+        }
 
 
         List<String> listOfQueries = Arrays.stream(queries.split(SPLIT_REGEX))
                 .map(String::trim) // Trim spaces
                 .toList();
         List<DbQueryRequest> listOfDbRequests = getDbQueriesForExtract(app, listOfQueries, testData);
-        return status(allDbExtraction(app, env, listOfDbRequests, testData));
+       String status= status(allDbExtraction(app, env, listOfDbRequests, testData));
+
+        allExtracts.put(DB_EXTRACT,status);
+        log.info(validationStatusLog(DB_EXTRACT, status));
+
     }
 
 
@@ -56,7 +63,7 @@ public class DbValuesExtract {
     protected static boolean dbExtract(String queryName, JsonNode expJson, JsonNode actualJson, Map<String, Object> testData) {
 
 
-        return extractValues("DB capture", queryName, expJson, actualJson, testData);
+        return extractValues(DB_EXTRACT, queryName, expJson, actualJson, testData);
     }
 
 
@@ -66,6 +73,11 @@ public class DbValuesExtract {
             log.warning(captureType + " for this query is empty: " + queryName);
             return false; // Got some exception
         }
+        if (responseJson==null){
+            log.warning(captureType+":Response is null for the query: "+queryName);
+            return false;
+        }
+
         JsonPath jsonPathObj = JsonPath.from(responseJson.toString());
 
         final boolean[] isCaptureSuccessful = {true};

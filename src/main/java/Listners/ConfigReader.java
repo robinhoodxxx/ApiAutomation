@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import static Listners.CommonVariables.CONFIG;
+
 public class ConfigReader {
 
     static CustomLogger log = CustomLogger.getInstance();
@@ -19,13 +21,14 @@ public class ConfigReader {
 
         try (InputStream input = new FileInputStream(LOCATION + filename + ".properties")) {
             properties.load(input);
-            return properties.getProperty(key);
-
+            String value = properties.getProperty(key);
+            if (value == null) {
+                log.warning(String.format("Key: %s not found in file: %s.properties", key, filename));
+                return "";
+            }
+            return value;
         } catch (FileNotFoundException e) {
             log.warning("Properties file not found:" + filename,e);
-
-        } catch (NullPointerException ex) {
-            log.warning(String.format("key:%s not found in the file:%s.properties", key, filename));
 
         } catch (Exception e) {
             log.warning(String.format("file:%s got exception %s", filename, e));
@@ -34,6 +37,8 @@ public class ConfigReader {
 
         return "";
     }
+
+
 
 
 }
