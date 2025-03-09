@@ -190,7 +190,6 @@ public class ExcelOperations {
 
 
         if (cell.getCellType() == CellType.FORMULA) {
-            log.warning("skipping cell update for cell" + cell.getCellFormula());
             return;
         }
 
