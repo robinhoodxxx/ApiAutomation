@@ -8,6 +8,7 @@ import io.restassured.http.Header;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import serviceUtils.ExcelOperations;
+import serviceUtils.JsonOperations;
 import serviceUtils.TemplateOps;
 
 import java.util.HashMap;
@@ -16,18 +17,16 @@ import java.util.Map;
 import static AllValidations.AllValidations.validationStatusLog;
 import static Listners.CommonVariables.*;
 import static Listners.DataSheet.*;
-import static serviceUtils.JsonOperations.*;
+import static serviceUtils.JsonOperations.convertJsonToMap;
+import static serviceUtils.JsonOperations.convertMaptoJsonString;
 
 public class RestApi {
 
-   static String url = "Url";
-   static String method = "Method";
-
-
     private static final CustomLogger log = CustomLogger.getInstance();
+    static String url = "Url";
+    static String method = "Method";
 
-
-    public static  void serviceExecution(Map<String, Object> testData) {
+    public static void serviceExecution(Map<String, Object> testData) {
 
         String service = (String) testData.get(SERVICE_NAME);
         String app = (String) testData.get(APP);
@@ -37,45 +36,42 @@ public class RestApi {
         String serviceType = (String) testData.get(SERVICE_TYPE);
 
 
-
         if (service == null || service.isBlank()) {
-            log.info(String.format("%s is blank or null So, ServiceExecution is %s",SERVICE_NAME,NOT_ENABLE) );
+            log.info(String.format("%s is blank or null So, ServiceExecution is %s", SERVICE_NAME, NOT_ENABLE));
             testData.put(SERVICE_STATUS, NOT_ENABLE);
             return;
         }
 
-        String reqBody = TemplateOps.processTemplate(reqBodyTemp,testData);
+        String reqBody = TemplateOps.processTemplate(JsonOperations.getRequestJsonString(reqBodyTemp, app), testData);
 
-        String reqHead = TemplateOps.processTemplate(reqHeadersTemp,testData);
+        String reqHead = TemplateOps.processTemplate(reqHeadersTemp, testData);
 
-        testData.put(REQUEST_HEADERS,reqHead);
-        testData.put(REQUEST_PAYLOAD,reqHead);
+        testData.put(REQUEST_HEADERS, reqHead);
+        testData.put(REQUEST_PAYLOAD, reqBody);
 
+        RestRequest req = restDetails(serviceType, service, app, env);
 
-        RestRequest req = restDetails(serviceType,service,app,env);
-        if(req==null){
+        if (req == null) {
             testData.put(SERVICE_STATUS, FAIL);
             return;
         }
 
-        triggerApiRequestWithRetry(req.methodType(),req.url(),reqBody, convertJsonToMap(reqHead),testData);
-
+        triggerApiRequestWithRetry(req.methodType(), req.url(), reqBody, convertJsonToMap(reqHead), testData);
 
 
     }
 
-    private static RestRequest restDetails(String serviceType,String serviceName, String app, String env) {
-
+    private static RestRequest restDetails(String serviceType, String serviceName, String app, String env) {
 
 
         String filepath = ConfigReader.get("ServiceConfigFilePath", CONFIG);
 
-        String query = "select "+url+","+method+" from "+serviceType+" where "+ SERVICE_NAME+ " = '" + serviceName + "' and "+APP+" = '" + app + "' and "+ENV+" = '" + env + "'";
+        String query = "select " + url + "," + method + " from " + serviceType + " where " + SERVICE_NAME + " = '" + serviceName + "' and " + APP + " = '" + app + "' and " + ENV + " = '" + env + "'";
 
         Recordset rec = ExcelOperations.getFilloRecord(filepath, query);
 
         if (rec == null) {
-            log.warning(String.format("No records found for this Rest service: %s , App: %s and Env: %s and query is %s: ", serviceName, app, env,query));
+            log.warning(String.format("No records found for this Rest service: %s , App: %s and Env: %s and query is %s: ", serviceName, app, env, query));
             return null;
         }
 
@@ -83,7 +79,7 @@ public class RestApi {
             String methodType = rec.getField(method);
             String restUrl = rec.getField(url);
 
-            return new RestRequest(restUrl,methodType);
+            return new RestRequest(restUrl, methodType);
 
         } catch (Exception e) {
             log.warning("Exception triggered during restDetails", e);
@@ -102,12 +98,12 @@ public class RestApi {
             // Add headers if provided
             if (headersMap != null && !headersMap.isEmpty()) {
                 requestSpec.headers(headersMap);
-                log.info(REQUEST_HEADERS+": "+headersMap);
+                log.info(REQUEST_HEADERS + ": " + headersMap);
             }
 
             // Add body if provided
             if (requestBody != null && !requestBody.isBlank()) {
-                log.info(REQUEST_PAYLOAD+": "+requestBody);
+                log.info(REQUEST_PAYLOAD + ": " + requestBody);
                 requestSpec.body(requestBody);
             }
 
@@ -122,16 +118,14 @@ public class RestApi {
             };
 
             Map<String, Object> resHeaders = new HashMap<>();
-            
+
             for (Header header : response.getHeaders()) {
                 resHeaders.putIfAbsent(header.getName(), header.getValue());
             }
 
 
-
             // Extract response details
-            return new RestResponse(PASS,response.getStatusCode(),response.getBody().asString(),convertMaptoJsonString(resHeaders),response.getTime());
-
+            return new RestResponse(PASS, response.getStatusCode(), response.getBody().asString(), convertMaptoJsonString(resHeaders), response.getTime());
 
 
         } catch (Exception e) {
@@ -154,16 +148,16 @@ public class RestApi {
 
         for (int i = 1; i <= retry; i++) {
 
-                if(response!=null){
-                    break;
-                }
+            if (response != null) {
+                break;
+            }
             response = triggerApiRequest(methodType, url, requestBody, headersMap);
 
 
             log.info("Retrying Rest Service again count: " + i);
         }
 
-        if(response==null){
+        if (response == null) {
             testData.put(SERVICE_STATUS, FAIL);
             return;
         }
@@ -173,10 +167,9 @@ public class RestApi {
         testData.put(ACTUAL_RESPONSE_RECEIVED, response.responseBody());
         testData.put(ACTUAL_RES_TIME, response.responseTime());
         testData.put(SERVICE_STATUS, PASS);
-        log.info(validationStatusLog(SERVICE_STATUS,PASS));
+        log.info(validationStatusLog(SERVICE_STATUS, PASS));
 
     }
-
 
 
 }

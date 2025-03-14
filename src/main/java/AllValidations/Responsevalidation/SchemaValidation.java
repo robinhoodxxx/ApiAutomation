@@ -1,6 +1,7 @@
 package AllValidations.Responsevalidation;
 
 import AllValidations.ValidationResponses;
+import Listners.ConfigReader;
 import Listners.CustomLogger;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
@@ -22,30 +23,41 @@ public class SchemaValidation {
 
     private static final CustomLogger log = CustomLogger.getInstance();
 
-    public static void schemaValidation(Map<String,Object> testData, Map<String,ValidationResponses> allValidations){
+    public static void schemaValidation(Map<String, Object> testData, Map<String, ValidationResponses> allValidations) {
         String actRes = (String) testData.get(ACTUAL_RESPONSE_RECEIVED);
         String schema = (String) testData.get(SCHEMA);
+        String app = String.valueOf(testData.get(APP));
+        schema = JsonOperations.getschemaJsonString(schema,app);
 
-
-        if(schema==null||schema.isBlank()){
-            log.info(validationStatusLog(SCHEMA_VALID,NOT_ENABLE));
-            allValidations.put(SCHEMA_VALID,emptyValidationResponses(NOT_ENABLE));
-          return;
+        if (!actRes.equals(PASS)) {
+            log.info(String.format(ConfigReader.get("skipValidation", CONFIG), SCHEMA_VALID, SKIP, actRes));
+            allValidations.put(SCHEMA_VALID, emptyValidationResponses(SKIP));
+            return;
         }
+
+        if (schema == null || schema.isBlank()) {
+            log.info(validationStatusLog(SCHEMA_VALID, NOT_ENABLE));
+            allValidations.put(SCHEMA_VALID, emptyValidationResponses(NOT_ENABLE));
+            return;
+        }
+
 
         JsonNode res = JsonOperations.convertStringToJson(actRes);
         JsonNode jsSchema = JsonOperations.convertStringToJson(schema);
 
-        ValidationResponses response = new ValidationResponses(status(validateJsonAgainstSchema(res,jsSchema)),new ArrayList<>());
+        ValidationResponses response = new ValidationResponses(status(validateJsonAgainstSchema(res, jsSchema)), new ArrayList<>());
 
-        log.info(validationStatusLog(SCHEMA_VALID,response.overallStatus()));
-        allValidations.put(SCHEMA_VALID,response);
-
+        log.info(validationStatusLog(SCHEMA_VALID, response.overallStatus()));
+        allValidations.put(SCHEMA_VALID, response);
 
     }
 
     public static boolean validateJsonAgainstSchema(JsonNode res, JsonNode schemaJson) {
 
+        if (schemaJson == null) {
+            log.warning("SchemaJson is received as null");
+            return false;
+        }
 
         try {
             // Create a JSON Schema factory
