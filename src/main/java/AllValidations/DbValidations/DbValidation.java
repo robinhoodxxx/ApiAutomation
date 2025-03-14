@@ -9,19 +9,22 @@ import serviceUtils.ExcelOperations;
 import serviceUtils.Helper;
 import serviceUtils.JsonOperations;
 import serviceUtils.TemplateOps;
+
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-import static AllValidations.AllValidations.*;
+
+import static AllValidations.AllValidations.status;
+import static AllValidations.AllValidations.validationStatusLog;
 import static Listners.CommonVariables.*;
 import static Listners.DataSheet.*;
 import static serviceUtils.CompareOperations.isJsonsEqual;
 
 
 public class DbValidation {
-    private static final CustomLogger log = CustomLogger.getInstance();
     static final String QUERY_NAME = "QueryName";
     static final String QUERY = "Query";
+    private static final CustomLogger log = CustomLogger.getInstance();
 
     private DbValidation() {
     }
@@ -75,9 +78,9 @@ public class DbValidation {
 
             Map<String, JsonNode> actualDbValues = MysqlDbOps.actualDbResponses(app, env, queries);
 
-            if (actualDbValues.isEmpty()){
+            if (actualDbValues.isEmpty()) {
                 log.warning("Db responses are came up as empty");
-                return  new ValidationResponses(FAIL, actualDbResults);
+                return new ValidationResponses(FAIL, actualDbResults);
             }
 
             queries.forEach(db -> {
@@ -131,10 +134,10 @@ public class DbValidation {
                 String expJson = rec.getField(validation);
 
                 //Db validation we use template change for extraction we don't use template process
-                if(validation.equals(DB_VALID)){
+                if (validation.equals(DB_VALID)) {
                     expJson = TemplateOps.processTemplate(expJson, testData);
                 }
-                 JsonNode json = JsonOperations.convertStringToJson(expJson);
+                JsonNode json = JsonOperations.convertStringToJson(expJson);
 
                 queryDetails.add(new DbQueryRequest(rec.getField(QUERY_NAME), actualQuery, json));
 

@@ -41,14 +41,12 @@ public class AllValidations {
     }
 
 
-
-
     public static void executionOpsOrder(Map<String, Object> testData) {
 
         Map<String, ValidationResponses> validations = new LinkedHashMap<>();
         Map<String, String> extractions = new LinkedHashMap<>();
 
-        DbValuesExtract.overallDbExtract(testData,extractions);
+        DbValuesExtract.overallDbExtract(testData, extractions);
         RestApi.serviceExecution(testData);
         ValuesExtract.responseCapture(testData, extractions);
         JsonResValidation.responseValidation(testData, validations);

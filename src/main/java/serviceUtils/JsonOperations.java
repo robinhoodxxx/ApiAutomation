@@ -193,18 +193,18 @@ public class JsonOperations {
      */
 
     public static String getRequestJsonString(String input, String app) {
-        String path = String.format(ConfigReader.get("RequestTemplatePath",CONFIG),app);
+        String path = String.format(ConfigReader.get("RequestTemplatePath", CONFIG), app);
         return getJsonString(input, path);
     }
 
     public static String getResponseJsonString(String input, String app) {
-        String path = String.format(ConfigReader.get("ResponseTemplatePath",CONFIG),app);
+        String path = String.format(ConfigReader.get("ResponseTemplatePath", CONFIG), app);
         return getJsonString(input, path);
     }
 
-    public  static String getschemaJsonString(String input, String app){
-        String path = String.format(ConfigReader.get("ResponseSchemaPath",CONFIG),app);
-        return getJsonString(input,path);
+    public static String getschemaJsonString(String input, String app) {
+        String path = String.format(ConfigReader.get("ResponseSchemaPath", CONFIG), app);
+        return getJsonString(input, path);
     }
 
     private static String getJsonString(String input, String pathType) {
