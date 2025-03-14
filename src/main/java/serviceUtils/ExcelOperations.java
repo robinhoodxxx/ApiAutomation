@@ -2,7 +2,9 @@ package serviceUtils;
 
 import Listners.ConfigReader;
 import Listners.CustomLogger;
-import com.codoid.products.fillo.*;
+import com.codoid.products.fillo.Connection;
+import com.codoid.products.fillo.Fillo;
+import com.codoid.products.fillo.Recordset;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
@@ -41,7 +43,7 @@ public class ExcelOperations {
                 for (Cell headerCell : headerRow) {
                     String columnName = headerCell.getStringCellValue().trim(); // Get the column header
 
-                    if(columnName.isBlank()){
+                    if (columnName.isBlank()) {
                         break;
                     }
 
@@ -190,7 +192,6 @@ public class ExcelOperations {
 
 
         if (cell.getCellType() == CellType.FORMULA) {
-            log.warning("skipping cell update for cell" + cell.getCellFormula());
             return;
         }
 
@@ -332,7 +333,7 @@ public class ExcelOperations {
         // Write the output to a file
         try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
             workbook.write(fileOut);
-            log.info("Excel Report created successfully :"+filePath);
+            log.info("Excel Report created successfully :" + filePath);
         } catch (Exception e) {
             log.warning("Excel report failed ", e);
         } finally {

@@ -23,13 +23,13 @@ public class FieldComparisons {
     private static final CustomLogger log = CustomLogger.getInstance();
 
 
-    public static void overallFieldValidations(Map<String,Object>testData,Map<String,ValidationResponses> allValidations){
+    public static void overallFieldValidations(Map<String, Object> testData, Map<String, ValidationResponses> allValidations) {
 
         String fieldVals = (String) testData.get(FIELD_VALID);
 
-        if(fieldVals==null||fieldVals.isBlank()){
-            log.info(FIELD_VALID+" is "+NOT_ENABLE);
-            allValidations.put(FIELD_VALID,new ValidationResponses(NOT_ENABLE,new ArrayList<>()));
+        if (fieldVals == null || fieldVals.isBlank()) {
+            log.info(FIELD_VALID + " is " + NOT_ENABLE);
+            allValidations.put(FIELD_VALID, new ValidationResponses(NOT_ENABLE, new ArrayList<>()));
             return;
         }
 
@@ -37,20 +37,20 @@ public class FieldComparisons {
 
 
         ValidationResponses res = fieldValidation(js);
-        allValidations.put(FIELD_VALID,res);
-        log.info(FIELD_VALID+" is "+res.overallStatus());
+        allValidations.put(FIELD_VALID, res);
+        log.info(FIELD_VALID + " is " + res.overallStatus());
 
     }
 
     public static ValidationResponses fieldValidation(JsonNode js) {
 
-        if(js==null|| js.isEmpty()) return emptyValidationResponses(FAIL);
+        if (js == null || js.isEmpty()) return emptyValidationResponses(FAIL);
 
         List<Object> fieldValidations = new ArrayList<>();
         final boolean[] overallStatus = {true};
 
         if (!js.isArray()) {
-            log.warning(MessageFormat.format("{0} is {1} , due given {0} is not in Array format as expected",DB_VALID,FAIL));
+            log.warning(MessageFormat.format("{0} is {1} , due given {0} is not in Array format as expected", DB_VALID, FAIL));
             return new ValidationResponses(FAIL, fieldValidations);
         }
 
@@ -67,8 +67,8 @@ public class FieldComparisons {
     }
 
 
-    private static  boolean comparator(JsonNode expected, JsonNode actual, JsonNode validator) {
-      String message = "incorrect symbol";
+    private static boolean comparator(JsonNode expected, JsonNode actual, JsonNode validator) {
+        String message = "incorrect symbol";
 
         if (expected == null || actual == null || validator == null) {
             log.info("fields are null");
@@ -137,7 +137,7 @@ public class FieldComparisons {
         }
     }
 
-    private static  boolean validator(JsonNode node) {
+    private static boolean validator(JsonNode node) {
 
 
         JsonNode expected = node.get("expected");

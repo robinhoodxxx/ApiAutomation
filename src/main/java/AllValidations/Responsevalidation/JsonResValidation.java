@@ -20,7 +20,6 @@ import static Listners.CommonVariables.*;
 import static Listners.DataSheet.*;
 
 
-
 public class JsonResValidation {
 
     private static final CustomLogger log = CustomLogger.getInstance();
@@ -52,7 +51,7 @@ public class JsonResValidation {
         }
 
         //getting jsonString if it is json file or jsonString
-        String expRes = JsonOperations.getRequestJsonString(expResponse,app);
+        String expRes = JsonOperations.getResponseJsonString(expResponse, app);
 
 
         Set<String> ignoreCols = Arrays.stream(ignoreColumns.split(SPLIT_REGEX))
@@ -66,8 +65,6 @@ public class JsonResValidation {
 
     public static ValidationResponses jsonResponseValidation(String expRes, String actRes, Set<String> ignoreAttributes, Map<String, Object> testData) {
         StringBuilder jsonComments = new StringBuilder();
-
-
 
 
         JsonNode actualRes = JsonOperations.convertStringToJson(actRes);

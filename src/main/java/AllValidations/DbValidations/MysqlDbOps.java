@@ -3,7 +3,6 @@ package AllValidations.DbValidations;
 
 import Listners.ConfigReader;
 import Listners.CustomLogger;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -11,29 +10,31 @@ import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static Listners.CommonVariables.CONFIG;
-import static Listners.DataSheet.*;
+import static Listners.DataSheet.APP;
+import static Listners.DataSheet.ENV;
 
 
 public class MysqlDbOps {
-
-
 
 
     private static final CustomLogger log = CustomLogger.getInstance();
     private static final Map<String, DbConnection> DB_DETAILS = new HashMap<>();
 
 
-     static Map<String, JsonNode> actualDbResponses(String app, String env, List<DbQueryRequest> queries) {
+    static Map<String, JsonNode> actualDbResponses(String app, String env, List<DbQueryRequest> queries) {
         Map<String, JsonNode> actualDbValues = new LinkedHashMap<>();
 
         if (queries == null || queries.isEmpty()) return actualDbValues;
 
         DbConnection dbDetails = getDbConnectionDetails(app, env);
 
-        if (dbDetails==null){
+        if (dbDetails == null) {
             return actualDbValues;
         }
 
@@ -74,7 +75,7 @@ public class MysqlDbOps {
                 return convertResultSetRowToJson(res);
             }
 
-            log.info("No records found for query :"+query);
+            log.info("No records found for query :" + query);
 
         } catch (SQLSyntaxErrorException e) {
             log.warning("Sql query execution failed due to syntax error plz check your query: " + query, e);
@@ -93,14 +94,14 @@ public class MysqlDbOps {
             return DB_DETAILS.get(app + env);
         }
 
-        String dbName = ConfigReader.get(String.format("%s_%s_DBNAME",app,env),CONFIG);
-        String dbUrl = ConfigReader.get(String.format("%s_%s_DB_URL",app,env),CONFIG)+dbName;
-        String dbUser =ConfigReader.get(String.format("%s_%s_DB_USERNAME",app,env),CONFIG);
-        String dbPassword =ConfigReader.get(String.format("%s_%s_DB_PASSWORD",app,env),CONFIG);
+        String dbName = ConfigReader.get(String.format("%s_%s_DBNAME", app, env), CONFIG);
+        String dbUrl = ConfigReader.get(String.format("%s_%s_DB_URL", app, env), CONFIG) + dbName;
+        String dbUser = ConfigReader.get(String.format("%s_%s_DB_USERNAME", app, env), CONFIG);
+        String dbPassword = ConfigReader.get(String.format("%s_%s_DB_PASSWORD", app, env), CONFIG);
 
-        if(dbUrl.isBlank()||dbUser.isBlank()||dbPassword.isBlank()){
+        if (dbUrl.isBlank() || dbUser.isBlank() || dbPassword.isBlank()) {
             String path = "src/main/resources/Config/config.properties";
-            log.warning(String.format("DB_USERNAME or DB_PASSWORD or DB_URL are empty for the %s : %s and %s : %s in ConfigFilePath: %s",APP,app,ENV,env,path));
+            log.warning(String.format("DB_USERNAME or DB_PASSWORD or DB_URL are empty for the %s : %s and %s : %s in ConfigFilePath: %s", APP, app, ENV, env, path));
             return null;
         }
 
@@ -111,9 +112,6 @@ public class MysqlDbOps {
 
         return dbDetails;
     }
-
-
-
 
 
     private static JsonNode convertResultSetRowToJson(ResultSet resultSet) {
@@ -141,7 +139,8 @@ public class MysqlDbOps {
                     case Long longValue -> jsonNode.put(columnName, longValue);
                     case Boolean boolValue -> jsonNode.put(columnName, boolValue);
                     case String strValue -> jsonNode.put(columnName, strValue);
-                    case BigDecimal bigDecimalValue -> jsonNode.put(columnName, bigDecimalValue.doubleValue()); // Convert BigDecimal to double
+                    case BigDecimal bigDecimalValue ->
+                            jsonNode.put(columnName, bigDecimalValue.doubleValue()); // Convert BigDecimal to double
                     case null -> jsonNode.putNull(columnName); // Handle NULL values
                     default -> jsonNode.putPOJO(columnName, columnValue); // Fallback for other objects
                 }
@@ -157,7 +156,6 @@ public class MysqlDbOps {
 
         return mapper.createObjectNode();
     }
-
 
 
 }

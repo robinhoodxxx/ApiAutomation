@@ -21,15 +21,14 @@ public class DbValuesExtract {
     private static final CustomLogger log = CustomLogger.getInstance();
 
 
-
-    public static void overallDbExtract(Map<String, Object> testData,Map<String, String> allExtracts) {
+    public static void overallDbExtract(Map<String, Object> testData, Map<String, String> allExtracts) {
         String queries = (String) testData.get(DB_EXTRACT);
         String app = (String) testData.get(APP);
         String env = (String) testData.get(ENV);
 
-        if(queries==null||queries.isBlank()){
-            log.warning(validationStatusLog(DB_EXTRACT,NOT_ENABLE));
-            allExtracts.put(DB_EXTRACT,NOT_ENABLE);
+        if (queries == null || queries.isBlank()) {
+            log.warning(validationStatusLog(DB_EXTRACT, NOT_ENABLE));
+            allExtracts.put(DB_EXTRACT, NOT_ENABLE);
             return;
         }
 
@@ -38,9 +37,9 @@ public class DbValuesExtract {
                 .map(String::trim) // Trim spaces
                 .toList();
         List<DbQueryRequest> listOfDbRequests = getDbQueriesForExtract(app, listOfQueries, testData);
-       String status= status(allDbExtraction(app, env, listOfDbRequests, testData));
+        String status = status(allDbExtraction(app, env, listOfDbRequests, testData));
 
-        allExtracts.put(DB_EXTRACT,status);
+        allExtracts.put(DB_EXTRACT, status);
         log.info(validationStatusLog(DB_EXTRACT, status));
 
     }
@@ -73,8 +72,8 @@ public class DbValuesExtract {
             log.warning(captureType + " for this query is empty: " + queryName);
             return false; // Got some exception
         }
-        if (responseJson==null){
-            log.warning(captureType+":Response is null for the query: "+queryName);
+        if (responseJson == null) {
+            log.warning(captureType + ":Response is null for the query: " + queryName);
             return false;
         }
 
@@ -105,7 +104,7 @@ public class DbValuesExtract {
 
             // Capture the value from actualJson and update testData
             testData.put(columnName, result);
-            log.info(String.format("%s successful for key: %s -> column: %s -> value: %s",captureType, key, columnName, result));
+            log.info(String.format("%s successful for key: %s -> column: %s -> value: %s", captureType, key, columnName, result));
         });
 
         return isCaptureSuccessful[0];

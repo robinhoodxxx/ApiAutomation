@@ -4,7 +4,6 @@ import Listners.CommonVariables;
 import Listners.CustomLogger;
 import org.apache.commons.lang3.RandomStringUtils;
 
-
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,23 +16,21 @@ public class TemplateOps {
     private static final CustomLogger log = CustomLogger.getInstance();
 
 
-
-
     public static String processTemplate(String template, Map<String, Object> dataMap) {
-      final String NULL_REPLACE_REGEX = RandomStringUtils.randomAlphanumeric(5);
+        final String NULL_REPLACE_REGEX = RandomStringUtils.randomAlphanumeric(5);
 
-        return commonProcessTemplate(template, dataMap,NULL_REPLACE_REGEX).replaceAll(String.format("\"%s\"", NULL_REPLACE_REGEX), "null").replaceAll(NULL_REPLACE_REGEX, "null");
+        return commonProcessTemplate(template, dataMap, NULL_REPLACE_REGEX).replaceAll(String.format("\"%s\"", NULL_REPLACE_REGEX), "null").replaceAll(NULL_REPLACE_REGEX, "null");
     }
 
-    private static String commonProcessTemplate(String template, Map<String, Object> dataMap,String nullRegex) {
+    private static String commonProcessTemplate(String template, Map<String, Object> dataMap, String nullRegex) {
 
 
-        if (template==null||template.isBlank()){
+        if (template == null || template.isBlank()) {
             log.warning("Template is received as null or blank");
             return "";
         }
 
-        if(!template.contains("(")){
+        if (!template.contains("(")) {
             log.info("Template no need of processing");
             return template;
         }
@@ -51,8 +48,8 @@ public class TemplateOps {
         while (matcher.find()) {
             String columnName = matcher.group(1).trim(); // Extract the text inside parentheses
 
-            if(!dataMap.containsKey(columnName)){
-                log.warning(MessageFormat.format("column not found in Data Sheet : {0}. Replacing with default mapping as column name-> \"{0}\"",columnName));
+            if (!dataMap.containsKey(columnName)) {
+                log.warning(MessageFormat.format("column not found in Data Sheet : {0}. Replacing with default mapping as column name-> \"{0}\"", columnName));
             }
             Object replacementValue = dataMap.getOrDefault(columnName, matcher.group(0));
             Object val = Optional.ofNullable(replacementValue).orElse(nullRegex);
@@ -92,14 +89,11 @@ public class TemplateOps {
     }
 
 
-
-
-
     public static Map<String, String> exceptedDb(String template, Map<String, Object> dataMap) {
         final String NULL_REPLACE_REGEX = RandomStringUtils.randomAlphanumeric(5);
 
         Map<String, String> expectedDbMap = new HashMap<>();
-        String processTemplate = commonProcessTemplate(template, dataMap,NULL_REPLACE_REGEX);
+        String processTemplate = commonProcessTemplate(template, dataMap, NULL_REPLACE_REGEX);
 
         String[] columnValues = processTemplate.split("\\|");
         for (String columnValue : columnValues) {
@@ -113,7 +107,7 @@ public class TemplateOps {
                 log.info(String.format("Column is :%s is empty, So it validates as null in db check", column));
             }
 
-            String actualValue = value.trim().equals(NULL_REPLACE_REGEX)||value.trim().equals(CommonVariables.NULL_REPLACE_REGEX) ? null : value;
+            String actualValue = value.trim().equals(NULL_REPLACE_REGEX) || value.trim().equals(CommonVariables.NULL_REPLACE_REGEX) ? null : value;
             expectedDbMap.put(column, actualValue);
         }
 
