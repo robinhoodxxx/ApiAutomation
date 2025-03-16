@@ -43,16 +43,36 @@ public class ValuesExtract extends DbValuesExtract {
         JsonNode expJson = JsonOperations.convertStringToJson(responseTemp);
         JsonNode actualJson = JsonOperations.convertStringToJson(actRes);
 
-        String status = status(extractValues(RESPONSE_EXTRACT, "", expJson, actualJson, testData));
-        allExtracts.put(RESPONSE_EXTRACT, status);
-        log.info(validationStatusLog(RESPONSE_EXTRACT, status));
+        String responseExtractStatus = status(extractValues(RESPONSE_EXTRACT, "", expJson, actualJson, testData));
+        allExtracts.put(RESPONSE_EXTRACT, responseExtractStatus);
+        log.info(validationStatusLog(RESPONSE_EXTRACT, responseExtractStatus));
     }
 
 
-    public static boolean requestCapture(JsonNode expJson, JsonNode actualJson, Map<String, Object> testData) {
+    public static void requestCapture(Map<String, Object> testData, Map<String, String> allExtracts) {
+
+        String requestTemp = (String) testData.get(REQUEST_EXTRACT);
+        String requestPayload = (String) testData.get(REQUEST_PAYLOAD);
+
+        if (requestTemp==null||requestTemp.isBlank()){
+            allExtracts.put(REQUEST_EXTRACT, NOT_ENABLE);
+            log.info(validationStatusLog(REQUEST_EXTRACT,NOT_ENABLE));
+            return;
+        }
+
+        if (requestPayload==null||requestPayload.isBlank()){
+            allExtracts.put(REQUEST_EXTRACT, SKIP);
+            log.info(validationStatusLog(REQUEST_EXTRACT,SKIP));
+            return;
+        }
+
+        JsonNode requestExtract = JsonOperations.convertStringToJson(requestTemp);
+        JsonNode reqPayload = JsonOperations.convertStringToJson(requestPayload);
 
 
-        return extractValues("RequestCapture", "", expJson, actualJson, testData);
+        String requestExtractStatus = status(extractValues("RequestCapture", "", requestExtract, reqPayload, testData));
+        allExtracts.put(REQUEST_EXTRACT, requestExtractStatus);
+        log.info(validationStatusLog(REQUEST_EXTRACT,requestExtractStatus));
     }
 
 

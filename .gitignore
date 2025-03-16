@@ -1,3 +1,4 @@
 target
 .idea
 src/main/resources/logs
+src/main/resources/Reports
