@@ -1,6 +1,6 @@
 package AllValidationsTest.DbValidationTest.DbValuesCaptureTest;
 
-import AllValidations.DbValidations.DbValuesExtract;
+import AllValidations.valuesExtract.ValuesExtract;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.restassured.path.json.JsonPath;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +12,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 
- class DbValuesExtractTest extends DbValuesExtract {
+ class DbValuesExtractTest extends ValuesExtract {
 
 
 
@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
         assertNotNull(expJson);
         assertNotNull(actualJson);
-        assertTrue(dbExtract("query",expJson,actualJson,jsonMap));
+        assertTrue(extractValues("query","",expJson,actualJson,jsonMap));
 
         JsonPath jsonPathObj = JsonPath.from(actualJson.toString());
 

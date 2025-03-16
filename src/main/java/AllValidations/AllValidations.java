@@ -1,8 +1,6 @@
 package AllValidations;
 
 
-import AllValidations.DbValidations.DbValidation;
-import AllValidations.DbValidations.DbValuesExtract;
 import AllValidations.Responsevalidation.JsonResValidation;
 import AllValidations.Responsevalidation.ResponseCodeValidation;
 import AllValidations.Responsevalidation.SchemaValidation;
@@ -46,14 +44,13 @@ public class AllValidations {
         Map<String, ValidationResponses> validations = new LinkedHashMap<>();
         Map<String, String> extractions = new LinkedHashMap<>();
 
-        DbValuesExtract.overallDbExtract(testData, extractions);
         RestApi.serviceExecution(testData);
         ValuesExtract.requestCapture(testData,extractions);
         ValuesExtract.responseCapture(testData, extractions);
         JsonResValidation.responseValidation(testData, validations);
         ResponseCodeValidation.responseCodeValidation(testData, validations);
         SchemaValidation.schemaValidation(testData, validations);
-        DbValidation.overallDbValidation(testData, validations);
+
 
 
         String testCaseStatus = overallTestcaseStatus(validations, extractions);
