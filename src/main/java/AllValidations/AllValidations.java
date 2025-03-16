@@ -48,6 +48,7 @@ public class AllValidations {
 
         DbValuesExtract.overallDbExtract(testData, extractions);
         RestApi.serviceExecution(testData);
+        ValuesExtract.requestCapture(testData,extractions);
         ValuesExtract.responseCapture(testData, extractions);
         JsonResValidation.responseValidation(testData, validations);
         ResponseCodeValidation.responseCodeValidation(testData, validations);
