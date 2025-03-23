@@ -1,6 +1,7 @@
 package AllValidations.DbValidations;
 
 import Listners.CustomLogger;
+import com.aventstack.extentreports.ExtentTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.restassured.path.json.JsonPath;
 
@@ -11,9 +12,9 @@ import java.util.Map;
 import static AllValidations.AllValidations.status;
 import static AllValidations.AllValidations.validationStatusLog;
 import static AllValidations.DbValidations.DbValidation.getDbQueriesForExtract;
-import static Listners.CommonVariables.NOT_ENABLE;
-import static Listners.CommonVariables.SPLIT_REGEX;
+import static Listners.CommonVariables.*;
 import static Listners.DataSheet.*;
+import static Listners.Reports.ExtentReport.testStatus;
 
 
 public class DbValuesExtract {
@@ -26,12 +27,15 @@ public class DbValuesExtract {
         String app = (String) testData.get(APP);
         String env = (String) testData.get(ENV);
 
+
         if (queries == null || queries.isBlank()) {
             log.warning(validationStatusLog(DB_EXTRACT, NOT_ENABLE));
             allExtracts.put(DB_EXTRACT, NOT_ENABLE);
             return;
         }
 
+
+        ExtentTest test = ((ExtentTest) testData.get(EXTENT)).createNode(DB_EXTRACT);
 
         List<String> listOfQueries = Arrays.stream(queries.split(SPLIT_REGEX))
                 .map(String::trim) // Trim spaces
@@ -40,6 +44,7 @@ public class DbValuesExtract {
         String status = status(allDbExtraction(app, env, listOfDbRequests, testData));
 
         allExtracts.put(DB_EXTRACT, status);
+        testStatus(DB_EXTRACT, status, test);
         log.info(validationStatusLog(DB_EXTRACT, status));
 
     }

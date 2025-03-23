@@ -3,6 +3,8 @@ package AllValidations.Responsevalidation;
 import AllValidations.ValidationResponses;
 import Listners.ConfigReader;
 import Listners.CustomLogger;
+import Listners.Reports.ExtentReport;
+import com.aventstack.extentreports.ExtentTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ProcessingMessage;
@@ -27,6 +29,9 @@ public class SchemaValidation {
         String actRes = (String) testData.get(ACTUAL_RESPONSE_RECEIVED);
         String schema = (String) testData.get(SCHEMA);
         String app = String.valueOf(testData.get(APP));
+
+
+
         schema = JsonOperations.getschemaJsonString(schema,app);
 
         if (!actRes.equals(PASS)) {
@@ -40,6 +45,7 @@ public class SchemaValidation {
             allValidations.put(SCHEMA_VALID, emptyValidationResponses(NOT_ENABLE));
             return;
         }
+        ExtentTest test = ((ExtentTest) testData.get(EXTENT)).createNode(SCHEMA_VALID);
 
 
         JsonNode res = JsonOperations.convertStringToJson(actRes);
@@ -49,6 +55,8 @@ public class SchemaValidation {
 
         log.info(validationStatusLog(SCHEMA_VALID, response.overallStatus()));
         allValidations.put(SCHEMA_VALID, response);
+        ExtentReport.testStatus(SCHEMA_VALID,response.overallStatus(),test);
+
 
     }
 

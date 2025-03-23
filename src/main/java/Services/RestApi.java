@@ -2,6 +2,8 @@ package Services;
 
 import Listners.ConfigReader;
 import Listners.CustomLogger;
+import Listners.Reports.ExtentReport;
+import com.aventstack.extentreports.ExtentTest;
 import com.codoid.products.fillo.Recordset;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
@@ -34,6 +36,7 @@ public class RestApi {
         String reqBodyTemp = (String) testData.get(REQUEST_PAYLOAD);
         String reqHeadersTemp = (String) testData.get(REQUEST_HEADERS);
         String serviceType = (String) testData.get(SERVICE_TYPE);
+        ExtentTest test = ((ExtentTest) testData.get(EXTENT)).createNode(SERVICE_STATUS);
 
 
         if (service == null || service.isBlank()) {
@@ -56,8 +59,26 @@ public class RestApi {
             return;
         }
 
-        triggerApiRequestWithRetry(req.methodType(), req.url(), reqBody, convertJsonToMap(reqHead), testData);
 
+        RestResponse response = triggerApiRequestWithRetry(req.methodType(), req.url(), reqBody, convertJsonToMap(reqHead), testData);
+
+        if (response == null) {
+            testData.put(SERVICE_STATUS, FAIL);
+            ExtentReport.testStatus(SERVICE_STATUS, FAIL, test);
+            return;
+        }
+
+        testData.put(ACTUAL_STATUS_CODE, response.statusCode());
+        testData.put(ACTUAL_HEADERS_RECEIVED, response.responseHeaders());
+        testData.put(ACTUAL_RESPONSE_RECEIVED, response.responseBody());
+        testData.put(ACTUAL_RES_TIME, response.responseTime());
+        testData.put(SERVICE_STATUS, PASS);
+        ExtentReport.testStatus(SERVICE_STATUS, PASS, test);
+        test.info(ACTUAL_RESPONSE_RECEIVED + ": " + response.responseBody())
+                .info(ACTUAL_HEADERS_RECEIVED + ": " + response.responseHeaders())
+                .info(ACTUAL_STATUS_CODE + ": " + response.statusCode())
+                .info(ACTUAL_RES_TIME + ": " + response.responseTime());
+        log.info(validationStatusLog(SERVICE_STATUS, PASS));
 
     }
 
@@ -138,7 +159,7 @@ public class RestApi {
     }
 
 
-    public static void triggerApiRequestWithRetry(String methodType, String url, String requestBody, Map<String, Object> headersMap, Map<String, Object> testData) {
+    public static RestResponse triggerApiRequestWithRetry(String methodType, String url, String requestBody, Map<String, Object> headersMap, Map<String, Object> testData) {
 
 
         int retry = 3;
@@ -157,17 +178,7 @@ public class RestApi {
             log.info("Retrying Rest Service again count: " + i);
         }
 
-        if (response == null) {
-            testData.put(SERVICE_STATUS, FAIL);
-            return;
-        }
-
-        testData.put(ACTUAL_STATUS_CODE, response.statusCode());
-        testData.put(ACTUAL_HEADERS_RECEIVED, response.responseHeaders());
-        testData.put(ACTUAL_RESPONSE_RECEIVED, response.responseBody());
-        testData.put(ACTUAL_RES_TIME, response.responseTime());
-        testData.put(SERVICE_STATUS, PASS);
-        log.info(validationStatusLog(SERVICE_STATUS, PASS));
+        return response;
 
     }
 

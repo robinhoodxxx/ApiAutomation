@@ -3,6 +3,7 @@ package AllValidations.DbValidations;
 import AllValidations.ValidationResponses;
 import Listners.ConfigReader;
 import Listners.CustomLogger;
+import com.aventstack.extentreports.ExtentTest;
 import com.codoid.products.fillo.Recordset;
 import com.fasterxml.jackson.databind.JsonNode;
 import serviceUtils.ExcelOperations;
@@ -18,6 +19,7 @@ import static AllValidations.AllValidations.status;
 import static AllValidations.AllValidations.validationStatusLog;
 import static Listners.CommonVariables.*;
 import static Listners.DataSheet.*;
+import static Listners.Reports.ExtentReport.testStatus;
 import static serviceUtils.CompareOperations.isJsonsEqual;
 
 
@@ -31,6 +33,7 @@ public class DbValidation {
 
     public static void overallDbValidation(Map<String, Object> testData, Map<String, ValidationResponses> allValidations) {
 
+
         if (!Helper.isRunEnable(testData.get(DB_VALID))) {
             log.info(validationStatusLog(DB_VALID, NOT_ENABLE));
             allValidations.put(DB_VALID, new ValidationResponses(NOT_ENABLE, new ArrayList<>()));
@@ -41,11 +44,12 @@ public class DbValidation {
         String env = String.valueOf(testData.get(ENV));
         String queries = (String) testData.get(DB_QUERIES);
         String ignoreColumns = String.valueOf(testData.get(DB_IGNORE_FIELDS));
+        ExtentTest test = ((ExtentTest) testData.get(EXTENT)).createNode(DB_VALID);
 
 
         if (queries == null || queries.isBlank()) {
             allValidations.put(DB_VALID, new ValidationResponses(FAIL, new ArrayList<>()));
-
+            testStatus(DB_VALID, FAIL, test);
             log.warning(MessageFormat.format("{0} are empty ,Even {1} is Enabled", DB_QUERIES, DB_VALID));
             return;
         }
@@ -65,6 +69,13 @@ public class DbValidation {
 
         ValidationResponses res = dbValidation(app, env, listOfDbRequests, ignoreCols);
         allValidations.put(DB_VALID, res);
+        testStatus(DB_VALID, res.overallStatus(), test);
+        res.responses().forEach(val -> {
+            DbQueryResponse db = (DbQueryResponse) val;
+            test.info(db.res().queryName() + ": " + db.res().query());
+            test.info(String.valueOf(db.res().DbJson()));
+        });
+
         log.info(validationStatusLog(DB_VALID, res.overallStatus()));
     }
 
