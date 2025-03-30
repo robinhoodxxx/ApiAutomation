@@ -45,6 +45,10 @@ public class DbValuesExtract {
 
         allExtracts.put(DB_EXTRACT, status);
         testStatus(DB_EXTRACT, status, test);
+        listOfDbRequests.forEach(req->
+            test.info(req.queryName()).info(req.query()).info(req.DbJson().toPrettyString())
+
+        );
         log.info(validationStatusLog(DB_EXTRACT, status));
 
     }
