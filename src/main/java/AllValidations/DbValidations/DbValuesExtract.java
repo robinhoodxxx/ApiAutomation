@@ -23,6 +23,8 @@ public class DbValuesExtract {
 
 
     public static void overallDbExtract(Map<String, Object> testData, Map<String, String> allExtracts) {
+
+
         String queries = (String) testData.get(DB_EXTRACT);
         String app = (String) testData.get(APP);
         String env = (String) testData.get(ENV);
@@ -41,12 +43,14 @@ public class DbValuesExtract {
                 .map(String::trim) // Trim spaces
                 .toList();
         List<DbQueryRequest> listOfDbRequests = getDbQueriesForExtract(app, listOfQueries, testData);
-        String status = status(allDbExtraction(app, env, listOfDbRequests, testData));
+        Map<String, JsonNode> actualDbValues = MysqlDbOps.actualDbResponses(app, env, listOfDbRequests);
+
+        String status = status(allDbExtraction(actualDbValues, listOfDbRequests, testData));
 
         allExtracts.put(DB_EXTRACT, status);
         testStatus(DB_EXTRACT, status, test);
         listOfDbRequests.forEach(req->
-            test.info(req.queryName()).info(req.query()).info(req.DbJson().toPrettyString())
+            test.info(req.queryName()).info(req.query()).info("DbTemplate:"+req.DbJson().toPrettyString()).info("dbRes:"+actualDbValues.get(req.queryName()))
 
         );
         log.info(validationStatusLog(DB_EXTRACT, status));
@@ -54,10 +58,9 @@ public class DbValuesExtract {
     }
 
 
-    private static boolean allDbExtraction(String app, String env, List<DbQueryRequest> queries, Map<String, Object> testData) {
+    private static boolean allDbExtraction(Map<String, JsonNode> actualDbValues, List<DbQueryRequest> queries, Map<String, Object> testData) {
 
         final boolean[] status = {true};
-        Map<String, JsonNode> actualDbValues = MysqlDbOps.actualDbResponses(app, env, queries);
 
         queries.forEach(req -> {
             JsonNode actualJson = actualDbValues.get(req.queryName());
