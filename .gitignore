@@ -1,4 +1,4 @@
 target
 .idea
 src/main/resources/logs/
-src/main/resources/Reports
+src/main/resources/Config/config.properties
