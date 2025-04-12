@@ -48,11 +48,11 @@ public class DbValuesExtract {
         String status = status(allDbExtraction(actualDbValues, listOfDbRequests, testData));
 
         allExtracts.put(DB_EXTRACT, status);
-        testStatus(DB_EXTRACT, status, test);
         listOfDbRequests.forEach(req->
             test.info(req.queryName()).info(req.query()).info("DbTemplate:"+req.DbJson().toPrettyString()).info("dbRes:"+actualDbValues.get(req.queryName()))
 
         );
+        testStatus(DB_EXTRACT, status, test);
         log.info(validationStatusLog(DB_EXTRACT, status));
 
     }

@@ -50,8 +50,8 @@ public class ValuesExtract extends DbValuesExtract {
 
         String responseExtractStatus = status(extractValues(RESPONSE_EXTRACT, "", expJson, actualJson, testData));
         allExtracts.put(RESPONSE_EXTRACT, responseExtractStatus);
-        ExtentReport.testStatus(RESPONSE_EXTRACT, responseExtractStatus, test);
         test.info(responseTemp);
+        ExtentReport.testStatus(RESPONSE_EXTRACT, responseExtractStatus, test);
         log.info(validationStatusLog(RESPONSE_EXTRACT, responseExtractStatus));
     }
 
@@ -83,9 +83,8 @@ public class ValuesExtract extends DbValuesExtract {
 
         String requestExtractStatus = status(extractValues(REQUEST_EXTRACT, "", requestExtract, reqPayload, testData));
         allExtracts.put(REQUEST_EXTRACT, requestExtractStatus);
-        ExtentReport.testStatus(RESPONSE_EXTRACT, requestExtractStatus, test);
         test.info(requestTemp);
-
+        ExtentReport.testStatus(RESPONSE_EXTRACT, requestExtractStatus, test);
         log.info(validationStatusLog(REQUEST_EXTRACT, requestExtractStatus));
     }
 

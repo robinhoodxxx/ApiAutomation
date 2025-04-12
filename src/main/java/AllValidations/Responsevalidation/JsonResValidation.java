@@ -64,10 +64,9 @@ public class JsonResValidation {
 
         ValidationResponses res = jsonResponseValidation(expRes, actRes, ignoreCols);
         allValidations.put(RES_VALID, res);
-        testStatus(RES_VALID, res.overallStatus(), test);
         test.info(EXP_RESPONSE_PAYLOAD+":"+expRes).info(ACTUAL_RESPONSE_RECEIVED+":"+actRes);
         test.info(RES_IGNORE_FIELDS + ": " + ignoreColumns);
-
+        testStatus(RES_VALID, res.overallStatus(), test);
         log.info(validationStatusLog(RES_VALID, res.overallStatus()));
     }
 

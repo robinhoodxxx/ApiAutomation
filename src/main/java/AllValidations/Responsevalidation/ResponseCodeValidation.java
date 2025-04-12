@@ -38,8 +38,9 @@ public class ResponseCodeValidation {
 
         ValidationResponses res = resCodeVal(expStatusCode, actStatusCode);
         allValidations.put(RES_CODE_VALID, res);
-        testStatus(RES_CODE_VALID, res.overallStatus(), test);
         test.info(EXP_STATUS_CODE + ":" + expStatusCode).info(ACTUAL_STATUS_CODE + ":" + actStatusCode);
+        testStatus(RES_CODE_VALID, res.overallStatus(), test);
+
         log.info(validationStatusLog(RES_CODE_VALID, res.overallStatus()));
 
 

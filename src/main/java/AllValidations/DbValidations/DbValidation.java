@@ -70,13 +70,12 @@ public class DbValidation {
 
         ValidationResponses res = dbValidation(actualDbValues, listOfDbRequests, ignoreCols);
         allValidations.put(DB_VALID, res);
-        testStatus(DB_VALID, res.overallStatus(), test);
         test.info(DB_IGNORE_FIELDS+":"+ignoreColumns);
         listOfDbRequests.forEach(req -> {
             test.info(req.queryName()).info(req.query()).info("ExpDbRes:"+req.DbJson());
             test.info("ActDbRes:"+actualDbValues.get(req.queryName()));
         });
-
+        testStatus(DB_VALID, res.overallStatus(), test);
         log.info(validationStatusLog(DB_VALID, res.overallStatus()));
     }
 

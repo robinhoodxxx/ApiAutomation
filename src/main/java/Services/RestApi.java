@@ -73,11 +73,12 @@ public class RestApi {
         testData.put(ACTUAL_RESPONSE_RECEIVED, response.responseBody());
         testData.put(ACTUAL_RES_TIME, response.responseTime());
         testData.put(SERVICE_STATUS, PASS);
-        ExtentReport.testStatus(SERVICE_STATUS, PASS, test);
         test.info(ACTUAL_RESPONSE_RECEIVED + ": " + response.responseBody())
                 .info(ACTUAL_HEADERS_RECEIVED + ": " + response.responseHeaders())
                 .info(ACTUAL_STATUS_CODE + ": " + response.statusCode())
                 .info(ACTUAL_RES_TIME + ": " + response.responseTime());
+
+        ExtentReport.testStatus(SERVICE_STATUS, PASS, test);
         log.info(validationStatusLog(SERVICE_STATUS, PASS));
 
     }
