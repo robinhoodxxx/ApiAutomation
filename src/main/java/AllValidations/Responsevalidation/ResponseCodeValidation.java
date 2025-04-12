@@ -3,6 +3,7 @@ package AllValidations.Responsevalidation;
 import AllValidations.ValidationResponses;
 import Listners.ConfigReader;
 import Listners.CustomLogger;
+import com.aventstack.extentreports.ExtentTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 import static AllValidations.AllValidations.*;
 import static Listners.CommonVariables.*;
 import static Listners.DataSheet.*;
+import static Listners.Reports.ExtentReport.testStatus;
 
 public class ResponseCodeValidation {
 
@@ -25,16 +27,20 @@ public class ResponseCodeValidation {
         String expStatusCode = (String) testData.get(EXP_STATUS_CODE);
         String actStatusCode = String.valueOf(testData.get(ACTUAL_STATUS_CODE));
 
-
         if (!resStatus.equals(PASS)) {
             log.info(String.format(ConfigReader.get("skipValidation", CONFIG), RES_CODE_VALID, SKIP, resStatus));
             allValidations.put(RES_CODE_VALID, emptyValidationResponses(SKIP));
             return;
         }
+        ExtentTest test = ((ExtentTest) testData.get(EXTENT)).createNode(RES_CODE_VALID);
+
 
 
         ValidationResponses res = resCodeVal(expStatusCode, actStatusCode);
         allValidations.put(RES_CODE_VALID, res);
+        test.info(EXP_STATUS_CODE + ":" + expStatusCode).info(ACTUAL_STATUS_CODE + ":" + actStatusCode);
+        testStatus(RES_CODE_VALID, res.overallStatus(), test);
+
         log.info(validationStatusLog(RES_CODE_VALID, res.overallStatus()));
 
 

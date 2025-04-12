@@ -4,6 +4,7 @@ package AllValidations.Responsevalidation;
 import AllValidations.ValidationResponses;
 import Listners.ConfigReader;
 import Listners.CustomLogger;
+import com.aventstack.extentreports.ExtentTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import serviceUtils.CompareOperations;
 import serviceUtils.JsonOperations;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 import static AllValidations.AllValidations.*;
 import static Listners.CommonVariables.*;
 import static Listners.DataSheet.*;
+import static Listners.Reports.ExtentReport.testStatus;
 
 
 public class JsonResValidation {
@@ -49,26 +51,31 @@ public class JsonResValidation {
             allValidations.put(RES_VALID, emptyValidationResponses(NOT_ENABLE));
             return;
         }
+        ExtentTest test = ((ExtentTest) testData.get(EXTENT)).createNode(RES_VALID);
+
 
         //getting jsonString if it is json file or jsonString
-        String expRes = JsonOperations.getResponseJsonString(expResponse, app);
+        String expRes = JsonOperations.getResponseJsonString(TemplateOps.processTemplate(expResponse, testData), app);
 
 
         Set<String> ignoreCols = Arrays.stream(ignoreColumns.split(SPLIT_REGEX))
                 .map(String::trim).filter(s -> !s.isEmpty()) // Trim and remove empty spaces
                 .collect(Collectors.toSet());
 
-        ValidationResponses res = jsonResponseValidation(expRes, actRes, ignoreCols, testData);
+        ValidationResponses res = jsonResponseValidation(expRes, actRes, ignoreCols);
         allValidations.put(RES_VALID, res);
+        test.info(EXP_RESPONSE_PAYLOAD+":"+expRes).info(ACTUAL_RESPONSE_RECEIVED+":"+actRes);
+        test.info(RES_IGNORE_FIELDS + ": " + ignoreColumns);
+        testStatus(RES_VALID, res.overallStatus(), test);
         log.info(validationStatusLog(RES_VALID, res.overallStatus()));
     }
 
-    public static ValidationResponses jsonResponseValidation(String expRes, String actRes, Set<String> ignoreAttributes, Map<String, Object> testData) {
+    public static ValidationResponses jsonResponseValidation(String expRes, String actRes, Set<String> ignoreAttributes) {
         StringBuilder jsonComments = new StringBuilder();
 
 
         JsonNode actualRes = JsonOperations.convertStringToJson(actRes);
-        JsonNode expResponse = JsonOperations.convertStringToJson(TemplateOps.processTemplate(expRes, testData));
+        JsonNode expResponse = JsonOperations.convertStringToJson(expRes);
 
 
         boolean result = CompareOperations.isJsonsEqual(expResponse, actualRes, jsonComments, ignoreAttributes, JSON_VALIDATION);

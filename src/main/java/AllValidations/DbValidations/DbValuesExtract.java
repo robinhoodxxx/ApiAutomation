@@ -1,6 +1,7 @@
 package AllValidations.DbValidations;
 
 import Listners.CustomLogger;
+import com.aventstack.extentreports.ExtentTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.restassured.path.json.JsonPath;
 
@@ -11,9 +12,9 @@ import java.util.Map;
 import static AllValidations.AllValidations.status;
 import static AllValidations.AllValidations.validationStatusLog;
 import static AllValidations.DbValidations.DbValidation.getDbQueriesForExtract;
-import static Listners.CommonVariables.NOT_ENABLE;
-import static Listners.CommonVariables.SPLIT_REGEX;
+import static Listners.CommonVariables.*;
 import static Listners.DataSheet.*;
+import static Listners.Reports.ExtentReport.testStatus;
 
 
 public class DbValuesExtract {
@@ -22,9 +23,12 @@ public class DbValuesExtract {
 
 
     public static void overallDbExtract(Map<String, Object> testData, Map<String, String> allExtracts) {
+
+
         String queries = (String) testData.get(DB_EXTRACT);
         String app = (String) testData.get(APP);
         String env = (String) testData.get(ENV);
+
 
         if (queries == null || queries.isBlank()) {
             log.warning(validationStatusLog(DB_EXTRACT, NOT_ENABLE));
@@ -33,22 +37,30 @@ public class DbValuesExtract {
         }
 
 
+        ExtentTest test = ((ExtentTest) testData.get(EXTENT)).createNode(DB_EXTRACT);
+
         List<String> listOfQueries = Arrays.stream(queries.split(SPLIT_REGEX))
                 .map(String::trim) // Trim spaces
                 .toList();
         List<DbQueryRequest> listOfDbRequests = getDbQueriesForExtract(app, listOfQueries, testData);
-        String status = status(allDbExtraction(app, env, listOfDbRequests, testData));
+        Map<String, JsonNode> actualDbValues = MysqlDbOps.actualDbResponses(app, env, listOfDbRequests);
+
+        String status = status(allDbExtraction(actualDbValues, listOfDbRequests, testData));
 
         allExtracts.put(DB_EXTRACT, status);
+        listOfDbRequests.forEach(req->
+            test.info(req.queryName()).info(req.query()).info("DbTemplate:"+req.DbJson().toPrettyString()).info("dbRes:"+actualDbValues.get(req.queryName()))
+
+        );
+        testStatus(DB_EXTRACT, status, test);
         log.info(validationStatusLog(DB_EXTRACT, status));
 
     }
 
 
-    private static boolean allDbExtraction(String app, String env, List<DbQueryRequest> queries, Map<String, Object> testData) {
+    private static boolean allDbExtraction(Map<String, JsonNode> actualDbValues, List<DbQueryRequest> queries, Map<String, Object> testData) {
 
         final boolean[] status = {true};
-        Map<String, JsonNode> actualDbValues = MysqlDbOps.actualDbResponses(app, env, queries);
 
         queries.forEach(req -> {
             JsonNode actualJson = actualDbValues.get(req.queryName());
