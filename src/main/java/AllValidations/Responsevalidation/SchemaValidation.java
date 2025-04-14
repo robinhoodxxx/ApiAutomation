@@ -2,7 +2,6 @@ package AllValidations.Responsevalidation;
 
 import AllValidations.ValidationResponses;
 import Listners.ConfigReader;
-import Listners.CustomLogger;
 import Listners.Reports.ExtentReport;
 import com.aventstack.extentreports.ExtentTest;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,6 +10,8 @@ import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import serviceUtils.JsonOperations;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import static Listners.DataSheet.*;
 
 public class SchemaValidation {
 
-    private static final CustomLogger log = CustomLogger.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(SchemaValidation.class);
 
     public static void schemaValidation(Map<String, Object> testData, Map<String, ValidationResponses> allValidations) {
         String actRes = (String) testData.get(ACTUAL_RESPONSE_RECEIVED);
@@ -63,7 +64,7 @@ public class SchemaValidation {
     public static boolean validateJsonAgainstSchema(JsonNode res, JsonNode schemaJson) {
 
         if (schemaJson == null) {
-            log.warning("SchemaJson is received as null");
+            log.warn("SchemaJson is received as null");
             return false;
         }
 
@@ -82,14 +83,14 @@ public class SchemaValidation {
             } else {
                 // Print detailed error messages for mismatches
                 for (ProcessingMessage message : report) {
-                    log.info("Validation error: " + message.getMessage());
-                    log.info("Path: " + message.getLogLevel());
-                    log.info("Details: " + message.asJson());
+                    log.info("Validation error: {}" , message.getMessage());
+                    log.info("Path: {}" , message.getLogLevel());
+                    log.info("Details: {}" , message.asJson());
                 }
                 return false;
             }
         } catch (ProcessingException e) {
-            log.warning("Error processing schema: " + e.getMessage());
+            log.warn("Error processing schema: {}" , e.getMessage());
             return false;
         }
     }

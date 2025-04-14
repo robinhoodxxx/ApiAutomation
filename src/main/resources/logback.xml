@@ -1,0 +1,26 @@
+<configuration>
+    <!-- Capture the start time once per app run -->
+    <timestamp key="logStartTime" datePattern="yy-MM-dd_HH-mm-ss" />
+
+    <!-- Console Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SS} [%thread] [%level] %-23.23logger{0} : %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender (One file per run) -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/app-${logStartTime}.log</file>
+        <append>true</append> <!-- overwrite file if name exists, optional -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.S} [%thread] [%level] %-56.56logger : %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root Logger -->
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>

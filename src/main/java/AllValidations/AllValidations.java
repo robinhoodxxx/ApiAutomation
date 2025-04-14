@@ -7,8 +7,9 @@ import AllValidations.Responsevalidation.JsonResValidation;
 import AllValidations.Responsevalidation.ResponseCodeValidation;
 import AllValidations.Responsevalidation.SchemaValidation;
 import AllValidations.valuesExtract.ValuesExtract;
-import Listners.CustomLogger;
 import Services.RestApi;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -19,7 +20,9 @@ import static Listners.CommonVariables.PASS;
 import static Listners.DataSheet.*;
 
 public class AllValidations {
-    private static final CustomLogger log = CustomLogger.getInstance();
+
+    private static final Logger log = LoggerFactory.getLogger(AllValidations.class);
+
 
 
     private AllValidations() {

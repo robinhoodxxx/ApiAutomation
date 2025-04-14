@@ -1,10 +1,9 @@
 package serviceUtils;
 
 import Listners.CommonVariables;
-import Listners.CustomLogger;
 import org.apache.commons.lang3.RandomStringUtils;
-
-import java.text.MessageFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -13,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class TemplateOps {
 
-    private static final CustomLogger log = CustomLogger.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(TemplateOps.class);
 
 
     public static String processTemplate(String template, Map<String, Object> dataMap) {
@@ -26,7 +25,7 @@ public class TemplateOps {
 
 
         if (template == null || template.isBlank()) {
-            log.warning("Template is received as null or blank");
+            log.warn("Template is received as null or blank");
             return "";
         }
 
@@ -36,7 +35,7 @@ public class TemplateOps {
         }
 
         if (!areBracketsMatched(template)) {
-            log.warning("Check your template has some ( are not closed or mismatched:" + template);
+            log.warn("Check your template has some ( are not closed or mismatched: {}" , template);
         }
 
         // Regular expression to find placeholders in the format (columnName)
@@ -49,7 +48,7 @@ public class TemplateOps {
             String columnName = matcher.group(1).trim(); // Extract the text inside parentheses
 
             if (!dataMap.containsKey(columnName)) {
-                log.warning(MessageFormat.format("column not found in Data Sheet : {0}. Replacing with default mapping as column name-> \"{0}\"", columnName));
+                log.warn("column not found in Data Sheet : {}. Replacing with default mapping as column name-> \"{}\"", columnName,columnName);
             }
             Object replacementValue = dataMap.getOrDefault(columnName, matcher.group(0));
             Object val = Optional.ofNullable(replacementValue).orElse(nullRegex);

@@ -2,10 +2,11 @@ package AllValidations.DbValidations;
 
 import AllValidations.ValidationResponses;
 import Listners.ConfigReader;
-import Listners.CustomLogger;
 import com.aventstack.extentreports.ExtentTest;
 import com.codoid.products.fillo.Recordset;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import serviceUtils.ExcelOperations;
 import serviceUtils.Helper;
 import serviceUtils.JsonOperations;
@@ -26,7 +27,7 @@ import static serviceUtils.CompareOperations.isJsonsEqual;
 public class DbValidation {
     static final String QUERY_NAME = "QueryName";
     static final String QUERY = "Query";
-    private static final CustomLogger log = CustomLogger.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(DbValidation.class);
 
     private DbValidation() {
     }
@@ -50,7 +51,7 @@ public class DbValidation {
         if (queries == null || queries.isBlank()) {
             allValidations.put(DB_VALID, new ValidationResponses(FAIL, new ArrayList<>()));
             testStatus(DB_VALID, FAIL, test);
-            log.warning(MessageFormat.format("{0} are empty ,Even {1} is Enabled", DB_QUERIES, DB_VALID));
+            log.warn(MessageFormat.format("{0} are empty ,Even {1} is Enabled", DB_QUERIES, DB_VALID));
             return;
         }
 
@@ -88,7 +89,7 @@ public class DbValidation {
         try {
 
             if (actualDbValues.isEmpty()) {
-                log.warning("Db responses are came up as empty");
+                log.warn("Db responses are came up as empty");
                 return new ValidationResponses(FAIL, actualDbResults);
             }
 
@@ -113,7 +114,7 @@ public class DbValidation {
 
             return new ValidationResponses(status(result[0]), actualDbResults);
         } catch (Exception e) {
-            log.warning("DB Validation :" + FAIL, e);
+            log.warn("DB Validation :" + FAIL, e);
         }
 
         return new ValidationResponses(FAIL, actualDbResults);
@@ -134,7 +135,7 @@ public class DbValidation {
                 Recordset rec = ExcelOperations.getFilloRecord(dbQueriesFilePath, filloQuery);
                 if (rec == null) {
                     queryDetails.add(new DbQueryRequest(queryName, "", null));
-                    log.warning(String.format("No records found for this DbQuery:%s in file %s", queryName, dbQueriesFilePath));
+                    log.warn(String.format("No records found for this DbQuery:%s in file %s", queryName, dbQueriesFilePath));
                     return;
                 }
 
@@ -152,7 +153,7 @@ public class DbValidation {
 
 
             } catch (Exception e) {
-                log.warning("exception got triggered in getDbQueries", e);
+                log.warn("exception got triggered in getDbQueries", e);
                 queryDetails.add(new DbQueryRequest(queryName, "", null));
             }
         });

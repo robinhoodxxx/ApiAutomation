@@ -1,9 +1,11 @@
 package AllValidations.DbValidations;
 
-import Listners.CustomLogger;
+
 import com.aventstack.extentreports.ExtentTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.restassured.path.json.JsonPath;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +21,7 @@ import static Listners.Reports.ExtentReport.testStatus;
 
 public class DbValuesExtract {
 
-    private static final CustomLogger log = CustomLogger.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(DbValuesExtract.class);
 
 
     public static void overallDbExtract(Map<String, Object> testData, Map<String, String> allExtracts) {
@@ -31,7 +33,7 @@ public class DbValuesExtract {
 
 
         if (queries == null || queries.isBlank()) {
-            log.warning(validationStatusLog(DB_EXTRACT, NOT_ENABLE));
+            log.warn(validationStatusLog(DB_EXTRACT, NOT_ENABLE));
             allExtracts.put(DB_EXTRACT, NOT_ENABLE);
             return;
         }
@@ -81,11 +83,11 @@ public class DbValuesExtract {
     protected static boolean extractValues(String captureType, String queryName, JsonNode captureTemplate, JsonNode responseJson, Map<String, Object> testData) {
         // Early return if expJson is null or empty
         if (captureTemplate == null || captureTemplate.isEmpty()) {
-            log.warning(captureType + " for this query is empty: " + queryName);
+            log.warn( "{} for this query is empty: {}" ,captureType , queryName);
             return false; // Got some exception
         }
         if (responseJson == null) {
-            log.warning(captureType + ":Response is null for the query: " + queryName);
+            log.warn("{}:Response is null for the query: {}" ,captureType , queryName);
             return false;
         }
 
@@ -102,14 +104,14 @@ public class DbValuesExtract {
             Object result = jsonPathObj.get(key);
 
             if (result == null) {
-                log.warning(String.format("%s '%s' not found in query result: %s", captureType, key, queryName));
+                log.warn(String.format("%s '%s' not found in query result: %s", captureType, key, queryName));
                 isCaptureSuccessful[0] = false;
                 return; // Skip to the next field
             }
 
             // Check if the column name exists in the testData map
             if (!testData.containsKey(columnName)) {
-                log.warning(String.format("Column name '%s' not found in TestData Sheet", columnName));
+                log.warn(String.format("Column name '%s' not found in TestData Sheet", columnName));
                 isCaptureSuccessful[0] = false;
                 return; // Skip to the next field
             }

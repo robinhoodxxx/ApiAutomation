@@ -1,15 +1,17 @@
 package Listners;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import static Listners.CommonVariables.CONFIG;
 
 public class ConfigReader {
 
-    static CustomLogger log = CustomLogger.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(ConfigReader.class);
 
     private static final String LOCATION = "./src/main/resources/Config/";
 
@@ -23,15 +25,15 @@ public class ConfigReader {
             properties.load(input);
             String value = properties.getProperty(key);
             if (value == null) {
-                log.warning(String.format("Key: %s not found in file: %s.properties", key, filename));
+                log.warn("Key: {} not found in file: {}.properties", key, filename);
                 return "";
             }
             return value;
         } catch (FileNotFoundException e) {
-            log.warning("Properties file not found:" + filename,e);
+            log.warn("Properties file not found: {}" , filename,e);
 
         } catch (Exception e) {
-            log.warning(String.format("file:%s got exception %s", filename, e));
+            log.warn("file:%s got exception {}", filename,e);
 
         }
 

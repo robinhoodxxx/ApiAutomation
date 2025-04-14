@@ -1,8 +1,9 @@
 package AllValidations.FieldComparisons;
 
 import AllValidations.ValidationResponses;
-import Listners.CustomLogger;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import serviceUtils.JsonOperations;
 
 import java.text.MessageFormat;
@@ -20,7 +21,7 @@ import static Listners.DataSheet.FIELD_VALID;
 
 public class FieldComparisons {
 
-    private static final CustomLogger log = CustomLogger.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(FieldComparisons.class);
 
 
     public static void overallFieldValidations(Map<String, Object> testData, Map<String, ValidationResponses> allValidations) {
@@ -38,7 +39,7 @@ public class FieldComparisons {
 
         ValidationResponses res = fieldValidation(js);
         allValidations.put(FIELD_VALID, res);
-        log.info(FIELD_VALID + " is " + res.overallStatus());
+        log.info("{} is {}",FIELD_VALID  , res.overallStatus());
 
     }
 
@@ -50,7 +51,7 @@ public class FieldComparisons {
         final boolean[] overallStatus = {true};
 
         if (!js.isArray()) {
-            log.warning(MessageFormat.format("{0} is {1} , due given {0} is not in Array format as expected", DB_VALID, FAIL));
+            log.warn("{} is {} , due given {} is not in Array format as expected", DB_VALID, FAIL,DB_VALID);
             return new ValidationResponses(FAIL, fieldValidations);
         }
 
