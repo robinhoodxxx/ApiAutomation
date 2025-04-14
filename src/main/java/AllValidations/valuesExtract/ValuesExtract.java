@@ -2,10 +2,11 @@ package AllValidations.valuesExtract;
 
 import AllValidations.DbValidations.DbValuesExtract;
 import Listners.ConfigReader;
-import Listners.CustomLogger;
 import Listners.Reports.ExtentReport;
 import com.aventstack.extentreports.ExtentTest;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import serviceUtils.JsonOperations;
 
 import java.util.Map;
@@ -18,7 +19,7 @@ import static Listners.DataSheet.*;
 
 public class ValuesExtract extends DbValuesExtract {
 
-    private static final CustomLogger log = CustomLogger.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(ValuesExtract.class);
 
 
     public static void responseCapture(Map<String, Object> testData, Map<String, String> allExtracts) {

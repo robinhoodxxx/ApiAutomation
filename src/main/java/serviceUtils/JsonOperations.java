@@ -1,15 +1,15 @@
 package serviceUtils;
 
 import Listners.ConfigReader;
-import Listners.CustomLogger;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import static Listners.CommonVariables.CONFIG;
 public class JsonOperations {
 
 
-    private static final CustomLogger log = CustomLogger.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(JsonOperations.class);
 
 
     private JsonOperations() {
@@ -44,7 +44,7 @@ public class JsonOperations {
 
 
         } catch (JsonParseException e) {
-            log.warning("Incorrect Json format: " + jsonString, e);
+            log.warn("Incorrect Json format: " + jsonString, e);
         } catch (Exception e) {
             // If parsing fails, return the raw string
             log.error("convertStringToJson failed ", e);
@@ -63,9 +63,9 @@ public class JsonOperations {
             return objectMapper.readValue(jsonString, new TypeReference<Map<String, Object>>() {
             });
         } catch (JsonParseException e) {
-            log.warning("convertJsonToMap is has not in json format :" + jsonString, e);
+            log.warn("convertJsonToMap is has not in json format :" + jsonString, e);
         } catch (Exception e) {
-            log.warning("convertJsonToMap is failed :" + jsonString, e);
+            log.warn("convertJsonToMap is failed :" + jsonString, e);
 
         }
 
@@ -124,18 +124,18 @@ public class JsonOperations {
         File file = new File(filePath);
         try {
             if (!file.exists()) {
-                log.error("File not found: " + filePath, new FileNotFoundException());
+                log.error("File not found: {}" , filePath, new FileNotFoundException());
             }
 
             return objectMapper.readTree(file);
 
         } catch (JsonParseException e) {
 
-            log.warning("json exception", e);
+            log.warn("json exception", e);
 
 
         } catch (Exception e) {
-            log.error("LoadingJsonFile Got:  Exception :" + e);
+            log.error("LoadingJsonFile Got:  Exception :" , e);
         }
         return null;
     }
@@ -225,11 +225,11 @@ public class JsonOperations {
                 return jsonFileToString(pathType + input);
             }
 
-            log.warning("Template File Not found :" + input);
+            log.warn("Template File Not found :{}" , input);
             // If neither, throw an exception
 
         } catch (Exception e) {
-            log.warning("Exception triggered for getJsonString", e);
+            log.warn("Exception triggered for getJsonString", e);
         }
         return null;
     }
@@ -243,14 +243,6 @@ public class JsonOperations {
     private static boolean isFilePath(String input) {
         return Files.exists(Paths.get(input));
     }
-
-    /**
-     * Reads the content of a JSON file and returns it as a string.
-     *
-     * @param filePath the path to the JSON file
-     * @return the content of the file as a JSON string
-     * @throws IOException if there is an error reading the file
-     */
 
 
     /**

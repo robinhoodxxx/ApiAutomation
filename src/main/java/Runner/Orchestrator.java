@@ -1,12 +1,14 @@
 package Runner;
 
 import AllValidations.AllValidations;
-import Listners.CustomLogger;
 import Listners.Reports.ExcelReport;
 import Listners.Reports.ExtentReport;
 import Listners.Reports.JsonReport;
+import Listners.RunStopException;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import serviceUtils.ExcelOperations;
 
 import java.util.ArrayList;
@@ -17,14 +19,24 @@ import static Listners.CommonVariables.EXTENT;
 import static Listners.DataSheet.*;
 
 public class Orchestrator {
-    private static final CustomLogger log = CustomLogger.getInstance();
+
+    private static final Logger log = LoggerFactory.getLogger(Orchestrator.class);
 
 
     public static void main(String[] args) {
 
-        String testData = "src/main/resources/InputTestData/DataSheet/TestData.xlsx";
+        try {
+            String testData = "src/main/resources/InputTestData/DataSheet/TestData.xlsx";
 
-        runner(testData);
+            log.info("Execution started for the Data sheet :{}",testData);
+            runner(testData);
+
+        } catch (Exception e) {
+            throw new RunStopException(e);
+        }finally {
+
+        }
+
     }
 
     public static void runner(String inputSheet) {
@@ -60,6 +72,7 @@ public class Orchestrator {
         rowData.remove(EXTENT);
         ExcelOperations.updateExcelRow(testData, rowData, row);
         log.info("*******************************");
+
 
         return rowData;
     }

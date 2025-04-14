@@ -2,11 +2,12 @@ package AllValidations.DbValidations;
 
 
 import Listners.ConfigReader;
-import Listners.CustomLogger;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mysql.cj.jdbc.exceptions.CommunicationsException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -23,7 +24,7 @@ import static Listners.DataSheet.ENV;
 public class MysqlDbOps {
 
 
-    private static final CustomLogger log = CustomLogger.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(MysqlDbOps.class);
     private static final Map<String, DbConnection> DB_DETAILS = new HashMap<>();
 
 
@@ -55,9 +56,9 @@ public class MysqlDbOps {
             return actualDbValues;
 
         } catch (CommunicationsException e) {
-            log.warning("Check your DB Connection is failed to connect", e);
+            log.warn("Check your DB Connection is failed to connect", e);
         } catch (Exception e) {
-            log.warning(e.getMessage(), e);
+            log.warn(e.getMessage(), e);
         }
 
 
@@ -75,13 +76,13 @@ public class MysqlDbOps {
                 return convertResultSetRowToJson(res);
             }
 
-            log.info("No records found for query :" + query);
+            log.info("No records found for query :{}", query);
 
         } catch (SQLSyntaxErrorException e) {
-            log.warning("Sql query execution failed due to syntax error plz check your query: " + query, e);
+            log.warn("Sql query execution failed due to syntax error plz check your query: {}" , query, e);
 
         } catch (Exception e) {
-            log.warning(e.getMessage(), e);
+            log.warn(e.getMessage(), e);
         }
 
         return convertResultSetRowToJson(null);
@@ -90,7 +91,7 @@ public class MysqlDbOps {
     private static DbConnection getDbConnectionDetails(String app, String env) {
 
         if (DB_DETAILS.containsKey(app + env)) {
-            log.info("Existing Db details using... :" + app + env);
+            log.info("Existing Db details using... :{} {}" , app , env);
             return DB_DETAILS.get(app + env);
         }
 
@@ -101,7 +102,7 @@ public class MysqlDbOps {
 
         if (dbUrl.isBlank() || dbUser.isBlank() || dbPassword.isBlank()) {
             String path = "src/main/resources/Config/config.properties";
-            log.warning(String.format("DB_USERNAME or DB_PASSWORD or DB_URL are empty for the %s : %s and %s : %s in ConfigFilePath: %s", APP, app, ENV, env, path));
+            log.warn("DB_USERNAME or DB_PASSWORD or DB_URL are empty for the {} : {} and {} : {} in ConfigFilePath: {}", APP, app, ENV, env, path);
             return null;
         }
 
@@ -150,7 +151,7 @@ public class MysqlDbOps {
             return jsonNode;
 
         } catch (Exception e) {
-            log.warning(e.getMessage(), e);
+            log.warn(e.getMessage(), e);
         }
 
 

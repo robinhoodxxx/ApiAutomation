@@ -1,7 +1,6 @@
 package Services;
 
 import Listners.ConfigReader;
-import Listners.CustomLogger;
 import Listners.Reports.ExtentReport;
 import com.aventstack.extentreports.ExtentTest;
 import com.codoid.products.fillo.Recordset;
@@ -9,6 +8,8 @@ import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import serviceUtils.ExcelOperations;
 import serviceUtils.JsonOperations;
 import serviceUtils.TemplateOps;
@@ -24,7 +25,7 @@ import static serviceUtils.JsonOperations.convertMaptoJsonString;
 
 public class RestApi {
 
-    private static final CustomLogger log = CustomLogger.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(RestApi.class);
     static String url = "Url";
     static String method = "Method";
 
@@ -60,7 +61,7 @@ public class RestApi {
         }
 
 
-        RestResponse response = triggerApiRequestWithRetry(req.methodType(), req.url(), reqBody, convertJsonToMap(reqHead), testData);
+        RestResponse response = triggerApiRequestWithRetry(req.methodType(), req.url(), reqBody, convertJsonToMap(reqHead));
 
         if (response == null) {
             testData.put(SERVICE_STATUS, FAIL);
@@ -93,7 +94,7 @@ public class RestApi {
         Recordset rec = ExcelOperations.getFilloRecord(filepath, query);
 
         if (rec == null) {
-            log.warning(String.format("No records found for this Rest service: %s , App: %s and Env: %s and query is %s: ", serviceName, app, env, query));
+            log.warn("No records found for this Rest service: {} , App: {} and Env: {} and query is {}: ", serviceName, app, env, query);
             return null;
         }
 
@@ -104,7 +105,7 @@ public class RestApi {
             return new RestRequest(restUrl, methodType);
 
         } catch (Exception e) {
-            log.warning("Exception triggered during restDetails", e);
+            log.warn("Exception triggered during restDetails", e);
         }
         return null;
     }
@@ -120,12 +121,12 @@ public class RestApi {
             // Add headers if provided
             if (headersMap != null && !headersMap.isEmpty()) {
                 requestSpec.headers(headersMap);
-                log.info(REQUEST_HEADERS + ": " + headersMap);
+                log.info("{} : {}",REQUEST_HEADERS , headersMap);
             }
 
             // Add body if provided
             if (requestBody != null && !requestBody.isBlank()) {
-                log.info(REQUEST_PAYLOAD + ": " + requestBody);
+                log.info("{} : {}",REQUEST_PAYLOAD , requestBody);
                 requestSpec.body(requestBody);
             }
 
@@ -151,7 +152,7 @@ public class RestApi {
 
 
         } catch (Exception e) {
-            log.warning("Rest service got exception", e);
+            log.warn("Rest service got exception", e);
         }
 
 
@@ -160,7 +161,7 @@ public class RestApi {
     }
 
 
-    public static RestResponse triggerApiRequestWithRetry(String methodType, String url, String requestBody, Map<String, Object> headersMap, Map<String, Object> testData) {
+    public static RestResponse triggerApiRequestWithRetry(String methodType, String url, String requestBody, Map<String, Object> headersMap) {
 
 
         int retry = 3;
@@ -176,7 +177,7 @@ public class RestApi {
             response = triggerApiRequest(methodType, url, requestBody, headersMap);
 
 
-            log.info("Retrying Rest Service again count: " + i);
+            log.info("Retrying Rest Service again count: {}" , i);
         }
 
         return response;

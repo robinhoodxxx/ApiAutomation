@@ -3,9 +3,10 @@ package AllValidations.Responsevalidation;
 
 import AllValidations.ValidationResponses;
 import Listners.ConfigReader;
-import Listners.CustomLogger;
 import com.aventstack.extentreports.ExtentTest;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import serviceUtils.CompareOperations;
 import serviceUtils.JsonOperations;
 import serviceUtils.TemplateOps;
@@ -24,7 +25,7 @@ import static Listners.Reports.ExtentReport.testStatus;
 
 public class JsonResValidation {
 
-    private static final CustomLogger log = CustomLogger.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(JsonResValidation.class);
 
     private JsonResValidation() {
     }

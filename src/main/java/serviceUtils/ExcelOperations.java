@@ -1,12 +1,14 @@
 package serviceUtils;
 
 import Listners.ConfigReader;
-import Listners.CustomLogger;
 import com.codoid.products.fillo.Connection;
 import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -22,7 +24,7 @@ import static Listners.DataSheet.RUN_FLAG;
 import static Listners.DataSheet.TestDataFixedExcelColumns;
 
 public class ExcelOperations {
-    private static final CustomLogger log = CustomLogger.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(ExcelOperations.class);
 
 
     public static Map<String, Object> readExcelSingleRow(String excelFilePath, int rowNumber) {
@@ -78,9 +80,9 @@ public class ExcelOperations {
                 return true;
             }
         } catch (IllegalStateException e) {
-            log.warning(String.format(" RowNo: %s for %s column cellValue is not String DataType :", row + 1, RUN_FLAG), e);
+            log.warn(String.format(" RowNo: %s for %s column cellValue is not String DataType :", row + 1, RUN_FLAG), e);
         } catch (Exception e) {
-            log.warning(e.getMessage(), e);
+            log.warn(e.getMessage(), e);
         }
         return false;
     }
@@ -105,7 +107,7 @@ public class ExcelOperations {
                 }
 
             }
-            log.info("Total Testcase Count is: " + list.size());
+            log.info("Total Testcase Count is: {}" , list.size());
         } catch (FileNotFoundException e) {
             log.error(String.format(ConfigReader.get(FILE_NOT_FOUND_KEY, LOG_MSG_FILE_NAME), excelFilePath), e);
             log.error(e.getMessage(), e);
@@ -180,7 +182,7 @@ public class ExcelOperations {
 
             case ERROR -> {
                 String s = "Error: " + cellValue.getErrorValue();
-                log.warning("formatCellValueAsString throws: " + s);
+                log.warn("formatCellValueAsString throws: {}" , s);
                 yield s;
             }
             default -> "";
@@ -275,7 +277,7 @@ public class ExcelOperations {
             Recordset recordset = connection.executeQuery(query);
 
             if (!recordset.next()) {
-                log.info("NO records for the " + query);
+                log.info("NO records for the {}" , query);
                 return null;
             }
             return recordset;
@@ -333,14 +335,14 @@ public class ExcelOperations {
         // Write the output to a file
         try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
             workbook.write(fileOut);
-            log.info("Excel Report created successfully :" + filePath);
+            log.info("Excel Report created successfully :{}" , filePath);
         } catch (Exception e) {
-            log.warning("Excel report failed ", e);
+            log.warn("Excel report failed ", e);
         } finally {
             try {
                 workbook.close();
             } catch (Exception e) {
-                log.warning("Excel report failed ", e);
+                log.warn("Excel report failed ", e);
             }
         }
     }

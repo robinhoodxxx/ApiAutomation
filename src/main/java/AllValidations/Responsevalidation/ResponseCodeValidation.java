@@ -2,8 +2,9 @@ package AllValidations.Responsevalidation;
 
 import AllValidations.ValidationResponses;
 import Listners.ConfigReader;
-import Listners.CustomLogger;
 import com.aventstack.extentreports.ExtentTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +19,7 @@ import static Listners.Reports.ExtentReport.testStatus;
 
 public class ResponseCodeValidation {
 
-    private static final CustomLogger log = CustomLogger.getInstance();
+    private static final Logger log = LoggerFactory.getLogger(ResponseCodeValidation.class);
 
 
     public static void responseCodeValidation(Map<String, Object> testData, Map<String, ValidationResponses> allValidations) {
