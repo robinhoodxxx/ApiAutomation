@@ -5,7 +5,7 @@ A **modular**, **data-driven**, and **scalable** test automation framework focus
 
 ---
 #How to run 
-in project repo 
+read the HowToRunInstruct.txt in project repo
 in ide run through main class src/main/java/Runner/Orchestrator.java
 
 in terminal
