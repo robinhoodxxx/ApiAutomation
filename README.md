@@ -4,7 +4,8 @@
 A **modular**, **data-driven**, and **scalable** test automation framework focused on **service-level testing**, especially for **REST APIs**. Built to support rapid test configuration through Excel and generate clear, professional reports.
 
 ---
-#How to run 
+## How to run 
+
 read the HowToRunInstruct.txt in project repo
 in ide run through main class src/main/java/Runner/Orchestrator.java
 
