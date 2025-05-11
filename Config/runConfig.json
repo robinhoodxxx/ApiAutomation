@@ -1,0 +1,17 @@
+{
+  "project": "Service automation",
+
+  "run": {
+    "default": [
+      "InputTestData/DataSheet/TestData.xlsx"
+    ],
+    "smoke": [
+      "InputTestData/DataSheet/TestData.xlsx"
+
+    ],
+    "regression": [
+      "InputTestData/DataSheet/TestData.xlsx"
+
+    ]
+  }
+}

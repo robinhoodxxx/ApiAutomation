@@ -10,6 +10,7 @@ import com.aventstack.extentreports.ExtentTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import serviceUtils.ExcelOperations;
+import serviceUtils.JsonOperations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +26,24 @@ public class Orchestrator {
 
     public static void main(String[] args) {
 
-        try {
-            String testData = "src/main/resources/InputTestData/DataSheet/TestData.xlsx";
+        String tag = "default";
 
-            log.info("Execution started for the Data sheet :{}",testData);
-            runner(testData);
+        if(args.length>0){
+            tag =args[0];
+        }
+        log.info("Running tests with tag:{} ",tag);
+
+        List<String> testData = JsonOperations.getListFromJsonFile("Config/runConfig.json","run."+tag);
+
+        try {
+
+            testData.forEach(data->{
+                log.info("Execution started for the Data sheet :{}",data);
+                runner(data);
+            });
 
         } catch (Exception e) {
             throw new RunStopException(e);
-        }finally {
-
         }
 
     }
