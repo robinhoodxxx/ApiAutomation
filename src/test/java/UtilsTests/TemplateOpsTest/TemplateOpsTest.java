@@ -14,9 +14,10 @@ import java.text.MessageFormat;
 
 import static org.junit.jupiter.api.Assertions.*;
 
- class TemplateOpsTest extends TemplateOps{
+class TemplateOpsTest extends TemplateOps{
 
     private static Map<String, Object> jsonMap;
+
 
     @BeforeAll
     static void DataSetup() {

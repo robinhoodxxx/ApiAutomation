@@ -1,0 +1,18 @@
+#how to run in console
+mvn clean package  ->it will create java jar with dependencies
+java -jar target/ApiAutomation-0.0.1-jar-with-dependencies.jar {tag}
+
+""tag -> "smoke" or "regression" or any custom tag you can add tag mentioned in config/runConfig.json under run attribute json node
+if you don't provide tag at all i will take default tag in the json file
+eg: java -jar target/ApiAutomation-0.0.1-jar-with-dependencies.jar
+this tag is used to determine the which TestData Excel file need to run ""
+
+#how to run in ide
+directly navigate to main class src/main/java/Runner/Orchestrator.java
+in here you can pass tags directly in args (or) if you dont pass similarly it will take default tag
+Test data excel
+
+#how to run.bat script
+for default tag -> run.bat
+for tag-> run.bat {tag}
+

@@ -13,7 +13,7 @@ public class ConfigReader {
 
     private static final Logger log = LoggerFactory.getLogger(ConfigReader.class);
 
-    private static final String LOCATION = "./src/main/resources/Config/";
+    private static final String LOCATION = "./Config/";
 
     private ConfigReader(){}
 

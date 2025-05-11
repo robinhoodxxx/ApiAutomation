@@ -15,7 +15,7 @@ class ExcelOperationsTest extends ExcelOperations {
 
 
     @Test()
-    @Disabled
+    @Disabled("as for now this exception is depreciated so we disabled for now")
     @DisplayName("Verify the InvalidRowExceptionTest is thrown for invalid row number i.e <=1 for excel read")
       void InvalidRowExceptionTest() {
         int rowNumber1 = 1;
@@ -52,7 +52,7 @@ class ExcelOperationsTest extends ExcelOperations {
     }
 
     @Test()
-    @Disabled
+    @Disabled("as for now this exception is depreciated so we disabled for now")
     @DisplayName("Verify the FileNotFoundException is thrown for invalid FILE_PATH")
      void FileNotFoundExceptionTest() {
 
