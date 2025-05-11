@@ -8,8 +8,6 @@ A **modular**, **data-driven**, and **scalable** test automation framework focus
 read the HowToRunInstruct.txt in project repo
 in ide run through main class src/main/java/Runner/Orchestrator.java
 
-in terminal
-mvn clean package
 
 ## 📌 Scope
 
