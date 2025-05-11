@@ -76,12 +76,12 @@ public class JsonOperations {
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(jsonString, new TypeReference<Map<String, Object>>() {
+            return objectMapper.readValue(jsonString, new TypeReference<>() {
             });
         } catch (JsonParseException e) {
-            log.warn("convertJsonToMap is has not in json format :" + jsonString, e);
+            log.warn("convertJsonToMap is has not in json format :{} {}", jsonString, e.getMessage());
         } catch (Exception e) {
-            log.warn("convertJsonToMap is failed :" + jsonString, e);
+            log.warn("convertJsonToMap is failed :{} {}", jsonString, e.getMessage());
 
         }
 
