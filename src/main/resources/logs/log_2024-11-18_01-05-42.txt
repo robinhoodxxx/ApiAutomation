@@ -1,1 +1,0 @@
-[18-11 : 01:05:42] [Listners.CustomLogger]  [INFO] 	:Application started.[18-11 : 01:05:42] [Listners.CustomLogger]  [WARNING] 	:This is a warning message.[18-11 : 01:05:42] [Listners.CustomLogger]  [INFO] 	:Application finished.
