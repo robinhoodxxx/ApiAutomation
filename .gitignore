@@ -1,4 +1,4 @@
 target
 .idea
-logs
+logs/*.log
 Config/config.properties
