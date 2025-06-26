@@ -29,7 +29,7 @@ public class ResponseCodeValidation {
         String actStatusCode = String.valueOf(testData.get(ACTUAL_STATUS_CODE));
 
         if (!resStatus.equals(PASS)) {
-            log.info(String.format(ConfigReader.get("skipValidation", CONFIG), RES_CODE_VALID, SKIP, resStatus));
+            log.info(String.format(ConfigReader.get("skipValidation",LOG_MSG_FILE_NAME), RES_CODE_VALID, SKIP, resStatus));
             allValidations.put(RES_CODE_VALID, emptyValidationResponses(SKIP));
             return;
         }

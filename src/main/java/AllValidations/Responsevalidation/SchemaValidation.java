@@ -80,7 +80,7 @@ public class SchemaValidation {
             // Check if the validation was successful
             if (report.isSuccess()) {
                 return true;
-            } else {
+            }
                 // Print detailed error messages for mismatches
                 for (ProcessingMessage message : report) {
                     log.info("Validation error: {}" , message.getMessage());
@@ -88,7 +88,7 @@ public class SchemaValidation {
                     log.info("Details: {}" , message.asJson());
                 }
                 return false;
-            }
+
         } catch (ProcessingException e) {
             log.warn("Error processing schema: {}" , e.getMessage());
             return false;
