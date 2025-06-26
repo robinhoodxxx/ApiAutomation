@@ -53,7 +53,7 @@ Build a reusable and extensible automation framework that enables:
 - Database access (if DB validations used)
 
 ### ✅ How to run
-- run.bat smoke
+- read HowToRunInstrct.txt file in the repo
 
 
 ### ✅ Clone the Repository

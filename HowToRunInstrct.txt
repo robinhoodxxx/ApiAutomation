@@ -14,5 +14,5 @@ Test data excel
 
 #how to run.bat script
 for default tag -> run.bat
-for tag-> run.bat {tag}
+for tag-> run.bat {tag} eg: run.bat smoke
 
