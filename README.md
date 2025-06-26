@@ -53,7 +53,14 @@ Build a reusable and extensible automation framework that enables:
 - Excel-compatible test case files
 - Database access (if DB validations used)
 
+### ✅ How to run
+- run.bat smoke
+
+
 ### ✅ Clone the Repository
 ```bash
 git clone https://github.com/robinhoodxxx/ApiAutomation.git
 cd ApiAutomation
+
+
+
