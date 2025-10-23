@@ -1,0 +1,206 @@
+[ {
+  "RunFlag" : "y",
+  "TestcaseId" : "TC_001",
+  "Testcase" : "Authizoration",
+  "ServiceType" : "REST",
+  "ServiceName" : "AUTH",
+  "App" : "REQ",
+  "Environment" : "PROD",
+  "ResponseSchema" : "",
+  "RequestHeaders" : "{\n\"Content-type\":\"application/json\"\n}",
+  "RequestPayload" : "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"cityslicka\"\n}",
+  "ExpectedResPayload" : "{\n\"token\": \"fefefr\"\n}",
+  "ExpectedResHeaders" : "",
+  "ResponseIgnoreFields" : "token",
+  "ExpStatusCodes" : "200",
+  "HeadersExtract" : "",
+  "RequestExtract" : "",
+  "ResponseExtract" : "{\n\"token\": \"(token)\"\n}",
+  "PreDbExtract" : "GetProduct",
+  "DbValidation" : "yes",
+  "DbQueries" : "GetProduct",
+  "DbIgnoreFields" : "created_at",
+  "FieldValidation" : "",
+  "email" : "eve.holt@reqres.in",
+  "password" : "cityslicka",
+  "token" : "QpwL5tke4Pnpja7X4",
+  "name" : "",
+  "job" : "",
+  "id" : "",
+  "p_id" : 1,
+  "ActualStatusCode" : 503,
+  "ActualHeadersReceived" : "{\"Transfer-Encoding\":\"chunked\",\"Nel\":\"{\\\"report_to\\\":\\\"heroku-nel\\\",\\\"max_age\\\":3600,\\\"success_fraction\\\":0.005,\\\"failure_fraction\\\":0.05,\\\"response_headers\\\":[\\\"Via\\\"]}\",\"Cache-Control\":\"no-cache, no-store\",\"Server\":\"cloudflare\",\"Report-To\":\"{\\\"group\\\":\\\"heroku-nel\\\",\\\"max_age\\\":3600,\\\"endpoints\\\":[{\\\"url\\\":\\\"https://nel.heroku.com/reports?ts=1749580838&sid=c4c9725f-1ab0-44d8-820f-430df2718e11&s=X03WrKFD1hFMTzyKJu7HvsQvZxzs%2FQqBIX87n7TdHNk%3D\\\"}]}\",\"Cf-Ray\":\"94daff8cddcb16dc-BOM\",\"Connection\":\"keep-alive\",\"Cf-Cache-Status\":\"DYNAMIC\",\"Reporting-Endpoints\":\"heroku-nel=https://nel.heroku.com/reports?ts=1749580838&sid=c4c9725f-1ab0-44d8-820f-430df2718e11&s=X03WrKFD1hFMTzyKJu7HvsQvZxzs%2FQqBIX87n7TdHNk%3D\",\"server-timing\":\"cfL4;desc=\\\"?proto=TCP&rtt=27169&min_rtt=27169&rtt_var=13584&sent=8&recv=8&lost=0&retrans=1&sent_bytes=3292&recv_bytes=864&delivery_rate=55796&cwnd=252&unsent_bytes=0&cid=92060858eafe0327&ts=75563&x=0\\\"\",\"Date\":\"Tue, 10 Jun 2025 18:41:53 GMT\",\"Content-Type\":\"text/html; charset=utf-8\"}",
+  "ActualResponseReceived" : "<!DOCTYPE html>\n\t<html>\n\t  <head>\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\t\t<meta charset=\"utf-8\">\n\t\t<title>Application Error</title>\n\t\t<style media=\"screen\">\n\t\t  html,body,iframe {\n\t\t\tmargin: 0;\n\t\t\tpadding: 0;\n\t\t  }\n\t\t  html,body {\n\t\t\theight: 100%;\n\t\t\toverflow: hidden;\n\t\t  }\n\t\t  iframe {\n\t\t\twidth: 100%;\n\t\t\theight: 100%;\n\t\t\tborder: 0;\n\t\t  }\n\t\t</style>\n\t  </head>\n\t  <body>\n\t\t<iframe src=\"//www.herokucdn.com/error-pages/application-error.html\"></iframe>\n\t  </body>\n\t</html>",
+  "ResponseTime" : 76284.0,
+  "ServiceStatus" : "PASSED",
+  "OverallStatus" : "FAILED",
+  "AllExtractions" : {
+    "PreDbExtract" : "PASSED",
+    "RequestExtract" : "NOT_ENABLED",
+    "ResponseExtract" : "FAILED"
+  },
+  "AllValidations" : {
+    "ResponseValidation" : {
+      "overallStatus" : "FAILED",
+      "responses" : [ {
+        "response" : null,
+        "status" : false,
+        "comments" : "ActualResponse is received as null or empty: null"
+      } ]
+    },
+    "ResponseCodeValidation" : {
+      "overallStatus" : "FAILED",
+      "responses" : [ ]
+    },
+    "SchemaValidation" : {
+      "overallStatus" : "SKIPPED",
+      "responses" : [ ]
+    },
+    "DbValidation" : {
+      "overallStatus" : "FAILED",
+      "responses" : [ {
+        "res" : {
+          "queryName" : "GetProduct",
+          "query" : "SELECT * FROM products where name ='Smartphone'",
+          "DbJson" : {
+            "product_id" : 1,
+            "name" : "Smartphone",
+            "description" : "Latest 5G smartphone with great features",
+            "price" : 699.99,
+            "stock_quantity" : 50,
+            "category_id" : 1,
+            "created_at" : 1734273497000,
+            "updated_at" : 1734273497000
+          }
+        },
+        "status" : false,
+        "comments" : "Column -> price : Value mismatch\n  Expected :699.9; \t\t\t  Actual :699.99; \n"
+      } ]
+    }
+  }
+}, {
+  "RunFlag" : "y",
+  "TestcaseId" : "TC_002",
+  "Testcase" : "crete",
+  "ServiceType" : "REST",
+  "ServiceName" : "CREATE",
+  "App" : "REQ",
+  "Environment" : "PROD",
+  "ResponseSchema" : "",
+  "RequestHeaders" : "{\n\"Authorization\" : \"Bearer QpwL5tke4Pnpja7X4\",\n\"Content-type\":\"application/json\"\n}",
+  "RequestPayload" : "{\n    \"name\": \"hello\",\n    \"job\": \"master\"\n}",
+  "ExpectedResPayload" : "{\n   \n    \"name\": \"(name)\",\n    \"job\": \"(job)\",\n    \"id\": \"529\",\n    \"createdAt\": \"2025-02-27T13:27:46.186Z\"\n}",
+  "ExpectedResHeaders" : "",
+  "ResponseIgnoreFields" : "id|createdAt",
+  "ExpStatusCodes" : "201",
+  "HeadersExtract" : "",
+  "RequestExtract" : "",
+  "ResponseExtract" : "{\n\"id\": \"(id)\"\n}",
+  "PreDbExtract" : "",
+  "DbValidation" : "no",
+  "DbQueries" : "",
+  "DbIgnoreFields" : "",
+  "FieldValidation" : "",
+  "email" : "",
+  "password" : "",
+  "token" : "QpwL5tke4Pnpja7X4",
+  "name" : "hello",
+  "job" : "master",
+  "id" : "536",
+  "p_id" : "",
+  "ActualStatusCode" : 401,
+  "ActualHeadersReceived" : "{\"Server\":\"cloudflare\",\"Access-Control-Allow-Origin\":\"*\",\"Ratelimit-Remaining\":\"99\",\"Cf-Ray\":\"94db016acbd38eef-BOM\",\"Connection\":\"keep-alive\",\"Cf-Cache-Status\":\"DYNAMIC\",\"Reporting-Endpoints\":\"heroku-nel=https://nel.heroku.com/reports?ts=1749580914&sid=c4c9725f-1ab0-44d8-820f-430df2718e11&s=mbt8Rabn7mTF5QZV84F8Q1YPg1lvMQ3uUqHm0hjiFPc%3D\",\"Ratelimit-Reset\":\"60\",\"Date\":\"Tue, 10 Jun 2025 18:41:54 GMT\",\"Via\":\"1.1 vegur\",\"Ratelimit-Policy\":\"100;w=60\",\"Nel\":\"{\\\"report_to\\\":\\\"heroku-nel\\\",\\\"max_age\\\":3600,\\\"success_fraction\\\":0.005,\\\"failure_fraction\\\":0.05,\\\"response_headers\\\":[\\\"Via\\\"]}\",\"Ratelimit-Limit\":\"100\",\"Etag\":\"W/\\\"48-+Z5A4MsbyryWjwqUCtZ7548heDc\\\"\",\"Report-To\":\"{\\\"group\\\":\\\"heroku-nel\\\",\\\"max_age\\\":3600,\\\"endpoints\\\":[{\\\"url\\\":\\\"https://nel.heroku.com/reports?ts=1749580914&sid=c4c9725f-1ab0-44d8-820f-430df2718e11&s=mbt8Rabn7mTF5QZV84F8Q1YPg1lvMQ3uUqHm0hjiFPc%3D\\\"}]}\",\"server-timing\":\"cfL4;desc=\\\"?proto=TCP&rtt=21124&min_rtt=20827&rtt_var=8404&sent=5&recv=6&lost=0&retrans=0&sent_bytes=3107&recv_bytes=882&delivery_rate=188760&cwnd=252&unsent_bytes=0&cid=07a5901d8f659d3a&ts=391&x=0\\\"\",\"Content-Length\":\"72\",\"Content-Type\":\"application/json; charset=utf-8\",\"X-Powered-By\":\"Express\"}",
+  "ActualResponseReceived" : "{\"error\":\"Missing API key.\",\"how_to_get_one\":\"https://reqres.in/signup\"}",
+  "ResponseTime" : 479.0,
+  "ServiceStatus" : "PASSED",
+  "OverallStatus" : "FAILED",
+  "AllExtractions" : {
+    "PreDbExtract" : "NOT_ENABLED",
+    "RequestExtract" : "NOT_ENABLED",
+    "ResponseExtract" : "FAILED"
+  },
+  "AllValidations" : {
+    "ResponseValidation" : {
+      "overallStatus" : "FAILED",
+      "responses" : [ {
+        "response" : {
+          "error" : "Missing API key.",
+          "how_to_get_one" : "https://reqres.in/signup"
+        },
+        "status" : false,
+        "comments" : "name: Field is missing in actual JSON ->name\njob: Field is missing in actual JSON ->job\nerror: Extra field found in actual JSON.\nhow_to_get_one: Extra field found in actual JSON.\n"
+      } ]
+    },
+    "ResponseCodeValidation" : {
+      "overallStatus" : "FAILED",
+      "responses" : [ ]
+    },
+    "SchemaValidation" : {
+      "overallStatus" : "SKIPPED",
+      "responses" : [ ]
+    },
+    "DbValidation" : {
+      "overallStatus" : "NOT_ENABLED",
+      "responses" : [ ]
+    }
+  }
+}, {
+  "RunFlag" : "y",
+  "TestcaseId" : "TC_003",
+  "Testcase" : "delete",
+  "ServiceType" : "REST",
+  "ServiceName" : "DELETE",
+  "App" : "REQ",
+  "Environment" : "PROD",
+  "ResponseSchema" : "",
+  "RequestHeaders" : "{\n\"Authorization\" : \"Bearer QpwL5tke4Pnpja7X4\",\n\"Content-type\":\"application/json\"\n}",
+  "RequestPayload" : "",
+  "ExpectedResPayload" : "",
+  "ExpectedResHeaders" : "",
+  "ResponseIgnoreFields" : "",
+  "ExpStatusCodes" : "204",
+  "HeadersExtract" : "",
+  "RequestExtract" : "",
+  "ResponseExtract" : "",
+  "PreDbExtract" : "",
+  "DbValidation" : "no",
+  "DbQueries" : "",
+  "DbIgnoreFields" : "",
+  "FieldValidation" : "",
+  "email" : "",
+  "password" : "",
+  "token" : "QpwL5tke4Pnpja7X4",
+  "name" : "",
+  "job" : "",
+  "id" : "536",
+  "p_id" : "",
+  "ActualStatusCode" : 401,
+  "ActualHeadersReceived" : "{\"Server\":\"cloudflare\",\"Access-Control-Allow-Origin\":\"*\",\"Ratelimit-Remaining\":\"98\",\"Cf-Ray\":\"94db01702915c203-BOM\",\"Connection\":\"keep-alive\",\"Cf-Cache-Status\":\"DYNAMIC\",\"Reporting-Endpoints\":\"heroku-nel=https://nel.heroku.com/reports?ts=1749580915&sid=c4c9725f-1ab0-44d8-820f-430df2718e11&s=FGa8fyh2V5axkoM81%2F82FAKXiFS%2FlbcRm3J9qOI%2FBEs%3D\",\"Ratelimit-Reset\":\"60\",\"Date\":\"Tue, 10 Jun 2025 18:41:55 GMT\",\"Via\":\"1.1 vegur\",\"Ratelimit-Policy\":\"100;w=60\",\"Nel\":\"{\\\"report_to\\\":\\\"heroku-nel\\\",\\\"max_age\\\":3600,\\\"success_fraction\\\":0.005,\\\"failure_fraction\\\":0.05,\\\"response_headers\\\":[\\\"Via\\\"]}\",\"Ratelimit-Limit\":\"100\",\"Etag\":\"W/\\\"48-+Z5A4MsbyryWjwqUCtZ7548heDc\\\"\",\"Report-To\":\"{\\\"group\\\":\\\"heroku-nel\\\",\\\"max_age\\\":3600,\\\"endpoints\\\":[{\\\"url\\\":\\\"https://nel.heroku.com/reports?ts=1749580915&sid=c4c9725f-1ab0-44d8-820f-430df2718e11&s=FGa8fyh2V5axkoM81%2F82FAKXiFS%2FlbcRm3J9qOI%2FBEs%3D\\\"}]}\",\"server-timing\":\"cfL4;desc=\\\"?proto=TCP&rtt=27718&min_rtt=27718&rtt_var=13859&sent=6&recv=7&lost=0&retrans=1&sent_bytes=3296&recv_bytes=829&delivery_rate=68625&cwnd=252&unsent_bytes=0&cid=4a8f00260832b31e&ts=368&x=0\\\"\",\"Content-Length\":\"72\",\"Content-Type\":\"application/json; charset=utf-8\",\"X-Powered-By\":\"Express\"}",
+  "ActualResponseReceived" : "{\"error\":\"Missing API key.\",\"how_to_get_one\":\"https://reqres.in/signup\"}",
+  "ResponseTime" : 509.0,
+  "ServiceStatus" : "PASSED",
+  "OverallStatus" : "FAILED",
+  "AllExtractions" : {
+    "PreDbExtract" : "NOT_ENABLED",
+    "RequestExtract" : "NOT_ENABLED",
+    "ResponseExtract" : "NOT_ENABLED"
+  },
+  "AllValidations" : {
+    "ResponseValidation" : {
+      "overallStatus" : "NOT_ENABLED",
+      "responses" : [ ]
+    },
+    "ResponseCodeValidation" : {
+      "overallStatus" : "FAILED",
+      "responses" : [ ]
+    },
+    "SchemaValidation" : {
+      "overallStatus" : "SKIPPED",
+      "responses" : [ ]
+    },
+    "DbValidation" : {
+      "overallStatus" : "NOT_ENABLED",
+      "responses" : [ ]
+    }
+  }
+} ]
